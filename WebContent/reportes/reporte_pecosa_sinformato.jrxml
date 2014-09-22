@@ -1,0 +1,1291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_pecosa_sinformato" pageWidth="841" pageHeight="595" orientation="Landscape" columnWidth="841" leftMargin="0" rightMargin="0" topMargin="20" bottomMargin="6" isFloatColumnFooter="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<subDataset name="dataset1"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\workspace_QPLogistica\\quipucamayoc.logistica_V1\\src\\quipucamayoc\\logistica_V1\\jasperReport\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ocnro" class="java.lang.String"/>
+	<parameter name="fechapec" class="java.util.Date"/>
+	<parameter name="codigopecosa" class="java.lang.String"/>
+	<parameter name="dependenciasolicitante" class="java.lang.String"/>
+	<parameter name="entregara" class="java.lang.String"/>
+	<parameter name="destinoa" class="java.lang.String"/>
+	<parameter name="dependenciacodigo" class="java.lang.String"/>
+	<parameter name="pedido" class="java.lang.String"/>
+	<parameter name="totalOCLetras" class="java.lang.String"/>
+	<parameter name="tipoorden" class="java.lang.String"/>
+	<parameter name="porcIgv" class="java.lang.String"/>
+	<parameter name="itemInclusive" class="java.lang.String"/>
+	<parameter name="informenro" class="java.lang.String"/>
+	<parameter name="tipo_de_pecosa" class="java.lang.String"/>
+	<parameter name="exped" class="java.lang.String"/>
+	<parameter name="orden_de_compra" class="java.lang.String"/>
+	<parameter name="guia" class="java.lang.String"/>
+	<parameter name="proveedor" class="java.lang.String"/>
+	<parameter name="factura" class="java.lang.String"/>
+	<parameter name="totalPecosa" class="java.lang.String"/>
+	<parameter name="observaciones" class="java.lang.String"/>
+	<parameter name="preimpresoInicialCadena" class="java.lang.String"/>
+	<parameter name="tipoDocumentoCompra" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<field name="precioTotal" class="java.math.BigDecimal"/>
+	<field name="caracteristicas" class="java.lang.String"/>
+	<field name="idArticulo" class="java.lang.String"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="marca" class="java.lang.String"/>
+	<field name="uniMed" class="java.lang.String"/>
+	<field name="precioUnit" class="java.math.BigDecimal"/>
+	<field name="cantidad" class="java.lang.Long"/>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="sum_val_page" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{precioTotal}]]></variableExpression>
+	</variable>
+	<variable name="sum_val" class="java.math.BigDecimal" incrementType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$V{sum_val_page}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="FECHAHOY" class="java.util.Date">
+		<variableExpression><![CDATA[new Date()]]></variableExpression>
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="173" splitType="Stretch">
+			<printWhenExpression><![CDATA[($V{PAGE_NUMBER}.intValue()>0?Boolean.TRUE : Boolean.FALSE)]]></printWhenExpression>
+			<rectangle>
+				<reportElement key="rectangle" x="18" y="71" width="446" height="43" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="256" y="0" width="338" height="31" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[PEDIDO - COMPROBANTE DE SALIDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="20" y="76" width="118" height="13" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[SOLICITO ENTREGAR A: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="308" y="95" width="146" height="13" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[LOS SIGUIENTES ARTICULOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="16" y="35" width="154" height="17" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DEPENDENCIA SOLICITANTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="524" y="51" width="98" height="13" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[LUGAR Y FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="16" y="12" width="177" height="10" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Universidad del Perú, Decana de América]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="16" y="0" width="213" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD NACION AL MAYOR DE SAN MARCOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="670" y="35" width="158" height="28" forecolor="#FFFFFF"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="671" y="70" width="158" height="43" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="671" y="94" width="79" height="16" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[SALIDA Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="670" y="35" width="79" height="28" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[CODIGO DE LA DEPENDENCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="671" y="75" width="79" height="16" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[PEDIDO Nº]]></text>
+			</staticText>
+			<textField pattern="dd-MMMMM-yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" x="546" y="34" width="116" height="17" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{fechapec}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="659" y="2" width="20" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="20" y="95" width="90" height="13" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[CON DESTINO A:]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="170" y="51" width="475" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<rectangle>
+				<reportElement key="rectangle" x="477" y="70" width="168" height="44" forecolor="#FFFFFF"/>
+			</rectangle>
+			<line>
+				<reportElement key="line" x="140" y="89" width="314" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="110" y="108" width="198" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="477" y="84" width="168" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="532" y="84" width="1" height="30" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="583" y="84" width="1" height="30" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="477" y="99" width="168" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="477" y="70" width="168" height="13" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[AFECTACION PRESUPUESTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" stretchType="RelativeToBandHeight" x="477" y="84" width="56" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CTA. MAYOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" stretchType="RelativeToBandHeight" x="532" y="84" width="51" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[PROGRAMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" stretchType="RelativeToBandHeight" x="583" y="85" width="62" height="13" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[SUB PROGRAMA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="150" y="35" width="352" height="16" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dependenciasolicitante}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="121" y="72" width="313" height="14" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{entregara}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="107" y="86" width="198" height="14" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{destinoa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="749" y="25" width="78" height="27" forecolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dependenciacodigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMMMM-yyyy" isBlankWhenNull="false">
+				<reportElement key="textField" x="673" y="22" width="146" height="13" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$V{FECHAHOY}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="524" y="34" width="23" height="17" forecolor="#000000"/>
+				<textElement/>
+				<text><![CDATA[C.U.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="704" y="138" width="63" height="34" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[UNITARIO]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="148" y="152" width="1" height="20" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="373" y="158" width="149" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="372" y="122" width="1" height="50" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="373" y="138" width="149" height="21" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ESPECIFICACIONES]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="85" y="152" width="1" height="20" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="580" y="138" width="1" height="34" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="32" y="151" width="340" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="523" y="138" width="55" height="34" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Clasificación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="767" y="138" width="61" height="34" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="645" y="138" width="58" height="34" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Unidad de Medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="446" y="158" width="76" height="14" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nº DE SERIE]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="32" y="121" width="1" height="51" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="522" y="138" width="1" height="34" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="445" y="158" width="1" height="14" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="767" y="138" width="1" height="34" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="31" y="138" width="342" height="13" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ARTICULOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="86" y="151" width="62" height="21" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[CANTIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="16" y="121" width="16" height="51" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left"/>
+				<text><![CDATA[ITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="579" y="138" width="66" height="34" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cantidad Despachada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="31" y="151" width="55" height="21" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="645" y="137" width="1" height="35" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="703" y="138" width="1" height="34" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="148" y="151" width="225" height="21" forecolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="31" y="121" width="342" height="17" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[SOLICITADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="372" y="158" width="74" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[MARCA]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="32" y="137" width="795" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="172" width="813" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="121" width="813" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="121" width="1" height="51" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="829" y="121" width="1" height="52" forecolor="#FFFFFF"/>
+			</line>
+			<textField evaluationTime="Band" isBlankWhenNull="false">
+				<reportElement key="textField" x="765" y="162" width="61" height="10" isPrintWhenDetailOverflows="true" forecolor="#000000">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER}.toString().equalsIgnoreCase("1")?Boolean.FALSE : Boolean.TRUE)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{sum_val}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="706" y="163" width="62" height="10" forecolor="#000000">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER}.toString().equalsIgnoreCase("1")?Boolean.FALSE : Boolean.TRUE)]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="none">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Vienen...................................]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="704" y="82" width="137" height="16"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{preimpresoInicialCadena}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" x="100" y="3" width="38" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" x="31" y="3" width="60" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{idArticulo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement key="textField" positionType="Float" isPrintRepeatedValues="false" x="138" y="13" width="264" height="10" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{caracteristicas}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" x="610" y="3" width="50" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{uniMed}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="658" y="3" width="60" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{precioUnit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" isPrintRepeatedValues="false" x="138" y="3" width="264" height="10" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" forecolor="#000000">
+					<printWhenExpression><![CDATA[Boolean.TRUE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" x="528" y="3" width="50" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" x="402" y="3" width="61" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="747" y="3" width="70" height="10" isRemoveLineWhenBlank="true" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{precioTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="135" splitType="Stretch">
+			<textField evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement key="textField" x="789" y="76" width="40" height="20" forecolor="#FFFFFF"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="578" y="76" width="211" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["PAGINA  "+$V{PAGE_NUMBER}+" DE"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="35" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="60" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="10" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="43" y="35" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[EQUIPO DE TRANSPORTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="43" y="60" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[MAQUINARIA Y EQUIPO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="60" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="158" y="60" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CONSTRUCCIONES EN CURSO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="158" y="10" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[GASTOS DE OPERACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="158" y="35" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[RECONSTRUCCION DE EQUIPOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="10" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="35" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="283" y="35" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[PEDIDOS EN TRANSITO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="35" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="60" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="283" y="10" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[BIENES EN DEPOSITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="283" y="60" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="10" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement key="line" x="283" y="84" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="283" y="58" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="283" y="34" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="33" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="58" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="83" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="43" y="33" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="43" y="58" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<rectangle>
+				<reportElement key="rectangle" x="650" y="29" width="178" height="39" forecolor="#FFFFFF"/>
+			</rectangle>
+			<line>
+				<reportElement key="line" x="43" y="83" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="651" y="31" width="176" height="15" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO  UTILIZADO  HASTA  EL  ITEM]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="35" y="99" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="59" y="112" width="160" height="17" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="35" y="99" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="230" y="99" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="229" y="99" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="424" y="98" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="424" y="98" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="619" y="96" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="619" y="96" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="249" y="112" width="160" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Of. Gral. Abastecimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="444" y="112" width="163" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jefe Unidad de Almacén]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="644" y="110" width="160" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Recibí conforme]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="59" y="111" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="249" y="112" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="444" y="111" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="644" y="110" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="828" y="0" width="1" height="90" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="90" width="813" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="0" width="1" height="90" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="0" width="812" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="43" y="11" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[EQUIPO DE OFICINA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="663" y="45" width="120" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{itemInclusive}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="651" y="45" width="13" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="782" y="45" width="45" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[INCLUSIVE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="709" y="19" width="56" height="10" forecolor="#000000"/>
+				<textElement markup="none">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Van....................]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="765" y="19" width="61" height="10" isPrintWhenDetailOverflows="true" forecolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{sum_val}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="668" y="56" width="49" height="11" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(En Letras)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="704" y="1" width="61" height="19" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="767" y="1" width="1" height="19" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="768" y="19" width="61" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="828" y="1" width="1" height="20" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="666" y="57" width="115" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="578" y="76" width="210" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement key="textField" x="788" y="76" width="35" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="221" splitType="Stretch">
+			<line>
+				<reportElement key="line" x="16" y="0" width="812" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="155" y="15" width="113" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{informenro}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="424" y="4" width="220" height="15" forecolor="#000000"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{tipo_de_pecosa}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line" mode="Opaque" x="70" y="3" width="303" height="1" forecolor="#000000"/>
+				<graphicElement>
+					<pen lineWidth="1.25" lineStyle="Double" lineColor="#000000"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="155" y="4" width="113" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{exped}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="20" y="4" width="121" height="12" forecolor="#000000"/>
+				<textElement markup="none">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nº HOJA REQUERIMIENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="20" y="19" width="71" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[INFORME Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="20" y="31" width="71" height="18" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[O/COMPRA Nº]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="155" y="26" width="113" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{orden_de_compra}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="140" y="4" width="6" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="140" y="15" width="6" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="140" y="26" width="6" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="426" y="15" width="278" height="24" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{guia}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="426" y="4" width="278" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{proveedor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="421" y="15" width="6" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="421" y="4" width="6" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="318" y="4" width="103" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement markup="none">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[PROVEEDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="421" y="38" width="6" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="426" y="38" width="278" height="24" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{factura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="318" y="15" width="103" height="12" forecolor="#000000">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[GUIA REMISION Nº]]></text>
+			</staticText>
+			<textField evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement key="textField" x="789" y="163" width="40" height="20" forecolor="#FFFFFF"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="578" y="163" width="211" height="20" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["PAGINA  "+$V{PAGE_NUMBER}+" DE"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="74" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="99" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="25" y="49" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="43" y="122" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[EQUIPO DE TRANSPORTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="43" y="147" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[MAQUINARIA Y EQUIPO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="99" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="158" y="147" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[CONSTRUCCIONES EN CURSO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="158" y="97" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[GASTOS DE OPERACION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="158" y="122" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[RECONSTRUCCION DE EQUIPOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="49" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="138" y="74" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="283" y="122" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[PEDIDOS EN TRANSITO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="74" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="99" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="283" y="97" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[BIENES EN DEPOSITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="283" y="147" width="91" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="263" y="49" width="15" height="15" forecolor="#FFFFFF"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement key="line" x="283" y="123" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="283" y="97" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="283" y="73" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="72" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="97" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="158" y="122" width="91" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="43" y="72" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="43" y="97" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<rectangle>
+				<reportElement key="rectangle" x="650" y="92" width="178" height="39" forecolor="#FFFFFF"/>
+			</rectangle>
+			<line>
+				<reportElement key="line" x="43" y="122" width="82" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="651" y="118" width="176" height="15" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[FORMULARIO  UTILIZADO  HASTA  EL  ITEM]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="35" y="138" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="59" y="199" width="160" height="17" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="35" y="162" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="230" y="138" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="229" y="162" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="424" y="137" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="424" y="162" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle" x="619" y="135" width="15" height="14" forecolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText" x="619" y="159" width="15" height="14" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="249" y="199" width="160" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Of. Gral. Abastecimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="444" y="199" width="163" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jefe Unidad de Almacén]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="644" y="199" width="160" height="19" forecolor="#FFFFFF"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Recibí conforme]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="59" y="150" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="249" y="151" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="444" y="150" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="644" y="149" width="160" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="828" y="39" width="1" height="90" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="129" width="813" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="39" width="1" height="90" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="16" y="39" width="812" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<staticText>
+				<reportElement key="staticText" x="43" y="97" width="82" height="25" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[EQUIPO DE OFICINA]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="663" y="145" width="120" height="12" forecolor="#000000"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{itemInclusive}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText" x="651" y="108" width="13" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="782" y="132" width="45" height="12" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[INCLUSIVE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="668" y="148" width="49" height="11" forecolor="#FFFFFF"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(En Letras)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="704" y="88" width="61" height="19" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement key="line" x="767" y="40" width="1" height="19" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="768" y="58" width="61" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<line>
+				<reportElement key="line" x="828" y="40" width="1" height="20" forecolor="#FFFFFF"/>
+			</line>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="745" y="100" width="70" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{totalPecosa}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement key="line" x="666" y="96" width="115" height="1" forecolor="#FFFFFF"/>
+			</line>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="578" y="160" width="211" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[""+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="false">
+				<reportElement key="textField" x="788" y="160" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement key="textField" x="70" y="62" width="634" height="23"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" x="318" y="38" width="103" height="12">
+					<printWhenExpression><![CDATA[$P{tipo_de_pecosa}.toString().trim().equalsIgnoreCase("")?Boolean.TRUE:Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{tipoDocumentoCompra}+" Nº"]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

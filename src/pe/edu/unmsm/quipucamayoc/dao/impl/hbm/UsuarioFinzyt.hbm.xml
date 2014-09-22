@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/06/2014 05:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.UsuarioFinzyt" table="USUARIO_FINZYT">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="usunom" type="string">
+            <column name="USUNOM" length="30" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="30" />
+        </property>
+        <property name="estado" type="java.lang.Integer">
+            <column name="ESTADO" precision="22" scale="0" />
+        </property>
+        <property name="proyectoid" type="java.lang.Integer">
+            <column name="PROYECTOID" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="rol" type="string">
+            <column name="ROL" length="30" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

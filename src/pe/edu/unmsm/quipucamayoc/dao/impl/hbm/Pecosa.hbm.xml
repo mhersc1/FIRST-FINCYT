@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/07/2014 12:26:43 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Pecosa" table="PECOSA">
+        <composite-id name="id" class="pe.edu.unmsm.quipucamayoc.model.PecosaId">
+            <key-property name="pecnro" type="java.lang.Long">
+                <column name="PECNRO" precision="22" scale="0" />
+            </key-property>
+            <key-property name="proyectoid" type="java.lang.Integer">
+                <column name="PROYECTOID" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="ordencompra" class="pe.edu.unmsm.quipucamayoc.model.Ordencompra" insert="false" update="false" fetch="select">
+            <column name="OCNRO" length="15" not-null="true"/>
+            <column name="PROYECTOID"  not-null="true" />
+        </many-to-one>
+        <property name="ocnro" type="string">
+            <column name="OCNRO" length="15" not-null="true" />
+        </property>
+        <property name="pecobs" type="string">
+            <column name="PECOBS" length="50" />
+        </property>
+        <property name="pecmontot" type="java.lang.Double">
+            <column name="PECMONTOT" precision="126" scale="0" />
+        </property>
+        <property name="pecestado" type="string">
+            <column name="PECESTADO" length="1" not-null="true"  />
+        </property>
+        <property name="pecdes" type="string">
+            <column name="PECDES" length="200" />
+        </property>
+        <property name="pecdesdir" type="string">
+            <column name="PECDESDIR" length="200" />
+        </property>
+        <property name="preimpresoinicial" type="string">
+            <column name="PREIMPRESOINICIAL" length="15"/>
+        </property>
+        <property name="serie" type="string">
+            <column name="SERIE" length="500" />
+        </property>
+        <property name="fechapec" type="date">
+            <column name="FECHAPEC" length="7" />
+        </property>        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#welcome.xhtml" PATH="/welcome.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#welcome.xhtml:0" NAME="item"
+   PATH="/welcome.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="generarOC::#generarOC.xhtml" NAME="output"
+    PATH="/generarOC.xhtml" TARGET="rules:#generarOC.xhtml"
+    TITLE="generarOC" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="generarOS::#generarOS.xhtml" NAME="output1"
+    PATH="/generarOS.xhtml" TARGET="rules:#generarOS.xhtml"
+    TITLE="generarOS" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#generarOC.xhtml" PATH="/generarOC.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#generarOS.xhtml" PATH="/generarOS.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

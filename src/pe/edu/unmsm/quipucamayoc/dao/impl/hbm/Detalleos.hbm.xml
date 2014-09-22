@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/06/2014 05:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Detalleos" table="DETALLEOS">
+        <composite-id name="id" class="pe.edu.unmsm.quipucamayoc.model.DetalleosId">
+            <key-property name="detosid" type="java.lang.Long">
+                <column name="DETOSID" />
+            </key-property>
+            <key-property name="proyectoid" type="java.lang.Integer">
+                <column name="PROYECTOID"/>
+            </key-property>
+        </composite-id>
+        <many-to-one name="ordenservicio" class="pe.edu.unmsm.quipucamayoc.model.Ordenservicio" update="false" insert="false" fetch="select">
+            <column name="OSNRO" length="15" not-null="true" />
+            <column name="PROYECTOID" not-null="true" />
+        </many-to-one>
+        <property name="osnro" type="string">
+            <column name="OSNRO" length="15" not-null="true" />
+        </property>
+        <property name="especifica" type="string">
+            <column name="ESPECIFICA" length="10" />
+        </property>
+        <property name="impuesto" type="java.lang.Character">
+            <column name="IMPUESTO" length="1" />
+        </property>
+        <property name="artcod" type="string">
+            <column name="ARTCOD" length="8" />
+        </property>
+        <property name="artdes" type="string">
+            <column name="ARTDES" length="200" />
+        </property>
+        <property name="moneda" type="java.lang.Character">
+            <column name="MONEDA" length="1" />
+        </property>
+        <property name="preciounit" type="big_decimal">
+            <column name="PRECIOUNIT" precision="22" scale="0" />
+        </property>
+        <property name="tipoprecio" type="java.lang.Character">
+            <column name="TIPOPRECIO" length="1" />
+        </property>
+        <property name="igv" type="big_decimal">
+            <column name="IGV" precision="22" scale="0" />
+        </property>
+        <property name="subtotal" type="big_decimal">
+            <column name="SUBTOTAL" precision="22" scale="0" />
+        </property>
+        <property name="detalle" type="string">
+            <column name="DETALLE" length="200" />
+        </property>
+    </class>
+</hibernate-mapping>

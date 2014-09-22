@@ -1,0 +1,678 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Orden de Compra</title>	
+</h:head>
+<h:body>
+<ui:include src="/pages/common/welcome.xhtml"/>
+<f:view>
+<div class="contenido">
+	<h:form>
+		<div class="cabezera">
+			<img src="../../../dist/images/logo_quipu.png" /> 
+			<ui:include src="/pages/common/logout.xhtml"></ui:include>		
+		</div>
+	</h:form>
+	<br clear="all"></br>
+	<div class="titulo">
+		<h2>ORDEN DE COMPRA</h2>
+	</div>
+	
+	<div class="upLeft">				
+		<h:form>			
+		 	<div class="datosProveedor">
+				<fieldset>
+				<legend> 
+					<span class="subtitulo">Datos del Proveedor</span>
+				</legend>
+				<rich:tabPanel id="tabPanel" name="tabPanel" switchType="ajax" activeItem="#{ordencompraMB.habSel.getProvtab()}">
+				 	<rich:tab id="BuscarProveedor" header="Buscar Proveedor" label="BuscarProveedor" name="provtab1" immediate="true">
+				 		<h:panelGrid columns="5" cellspacing="5">
+					 		<h:column>
+					 			<h:outputLabel value="Filtrar Por:  "></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:selectOneRadio  id="filtro" value="#{ordencompraMB.habSel.modoBusqProv}">
+						 			<f:selectItem  itemValue="0" itemLabel="Ruc"></f:selectItem>
+						 			<f:selectItem  itemValue="1" itemLabel="Nombre"></f:selectItem>						 		
+					 			</h:selectOneRadio>
+					 		</h:column>					 		
+							<h:column>
+								<h:inputText id="filtro1"
+											label="Ruc" 
+											value="#{ordencompraMB.datoProveedor}"											
+											style="width:250px"
+											required="true"
+											requiredMessage="Se necesita un valor" 
+											rendered="true">							
+								</h:inputText>
+								<rich:message for="filtro1" 
+											ajaxRendered="true"	/>								
+							</h:column>
+					 		<h:column>					 								 			
+								<a4j:commandButton  	
+														status="proveedorStatus" 
+														value="Buscar" 
+														action="#{ordencompraMB.registroProvBehavior()}"
+														render="tabPanel @form"														
+														/>					 			
+					 			<a4j:status name="proveedorStatus">
+					 				<f:facet name="start">
+					 					<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+					 				</f:facet>
+					 			</a4j:status>													 								
+					 		</h:column>
+				 		</h:panelGrid>
+				 		<div class="separador"></div>
+				 		<rich:extendedDataTable	id="listado"				 							
+				 							value="#{ordencompraMB.habSel.proveedores}"
+				 							var="proveedor"
+				 							rows="#{ordencompraMB.habSel.getCantProveedores()}"
+				 							rendered="#{not empty ordencompraMB.habSel.proveedores}"
+				 							style="width:530px; height:120px;"
+				 							>
+							<rich:column>
+								<f:facet name="header">Asignar</f:facet>
+								<div align="center">
+									<h:commandButton image="../../../dist/images/asignarproveedor.png"
+										title="Asignar Proveedor"
+										action="#{ordencompraMB.asignarProveedor(proveedor)}"
+										style="width:16px;">
+									</h:commandButton>
+
+
+								</div>
+							</rich:column>
+							<rich:column width="100">
+								<f:facet name="header">RUC</f:facet>
+								
+								#{proveedor.proruc}
+							</rich:column>
+							<rich:column width="200">
+								<f:facet name="header">Razon Social</f:facet>
+								#{proveedor.prorazsoc}
+							</rich:column>
+							<rich:column width="257">
+								<f:facet name="header">Nombres</f:facet>
+								#{proveedor.pronom}
+							</rich:column>
+											
+				 		</rich:extendedDataTable>				 		
+				    </rich:tab>		            		
+				 	
+				 	<rich:tab id="AsignarProveedor" header="Asignar Proveedor" label="AsignarProveedor" name="provtab2" immediate="true" >
+				 		<h:outputText value="No se encontro el proveedor. Ingrese los datos correspondientes." style="color:red; font-weight:bold"
+				 					  rendered="#{ordencompraMB.habSel.getCantProveedores() == 0 and ordencompraMB.habSel.isBuscarProv() }" 
+				 					  />		 					  
+				 		<h:panelGrid columns="3" cellspacing="5">
+					 		<h:column>
+					 			<h:outputLabel value="RUC"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:inputText id="lblRUC"  
+					 						value="#{ordencompraMB.proveedor.proruc}" 
+					 						required="true" 
+					 						requiredMessage="Ingrese el Nº RUC"
+					 						style="width: 340px; "
+					 						validatorMessage="Error Validación: Nro RUC: 11 digitos"
+					 						converterMessage="Solamente dígitos" >						 			
+					 			<a4j:ajax event="keyup"></a4j:ajax>					 			
+					 			<f:validateLength maximum="11" />	
+					 			<f:convertNumber type="number" integerOnly="true"/>				 								 			
+					 			</h:inputText>					 				
+					 		</h:column>
+							<h:column>
+								<rich:message for="lblRUC" ajaxRendered="true"></rich:message>
+							</h:column>
+							<h:column>
+					 			<h:outputLabel value="Razon Social"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:inputText id="lblRazonSocial" 
+					 						value="#{ordencompraMB.proveedor.prorazsoc}" 
+					 						required="true" 
+					 						requiredMessage="Ingrese Razón Social del proveedor"
+					 						style="width: 336px; ">					 			
+					 			<a4j:ajax event="keyup"></a4j:ajax>				 				
+					 			</h:inputText>					 			
+					 		</h:column>
+					 		<h:column>
+					 			<rich:message for="lblRazonSocial" ajaxRendered="true"></rich:message>
+					 		</h:column>
+					 		<h:column>
+					 			<h:outputLabel value="Apellido Paterno"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:inputText id="lblApePater" 
+					 						value="#{ordencompraMB.proveedor.proapepat}" 
+					 						required="true" 
+					 						requiredMessage="Ingrese Apellido paterno del proveedor"
+					 						style="width: 336px; ">					 			
+					 			<a4j:ajax event="keyup"></a4j:ajax>
+					 			</h:inputText>					 			
+					 		</h:column>
+					 		<h:column>
+					 			<rich:message for="lblApePater" ajaxRendered="true"></rich:message>
+					 		</h:column>
+					 		<h:column>
+					 			<h:outputLabel  value="Apellido Materno"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:inputText id="lblApeMater" 
+					 						value="#{ordencompraMB.proveedor.proapemat}" 
+					 						required="true" 
+					 						requiredMessage="Ingrese Apellido materno del proveedor" 
+					 						style="width: 333px; ">				 			
+					 			<a4j:ajax event="keyup"></a4j:ajax>
+					 			</h:inputText>					 			
+					 		</h:column>
+							<h:column>
+								<rich:message for="lblApeMater" ajaxRendered="true"></rich:message>
+							</h:column>
+							<h:column>
+					 			<h:outputLabel value="Nombres"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+					 			<h:inputText id="lblNombre" 
+					 			value="#{ordencompraMB.proveedor.pronom}" 
+					 			required="true" 
+					 			requiredMessage="Ingrese Nombre del proveedor"
+					 			style="width: 332px; ">					 			
+					 			<a4j:ajax event="keyup"></a4j:ajax>
+					 			</h:inputText>					 			
+					 		</h:column>
+					 		<h:column>
+					 			<rich:message for="lblNombre" ajaxRendered="true"></rich:message>
+					 		</h:column>
+					 		<h:column >
+								<h:outputLabel value="Direccion"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:inputText id="lblDireccion" 
+								value="#{ordencompraMB.proveedor.prodir}" 
+								required="true" 
+								requiredMessage="Ingrese Direccion del proveedor"
+								style="width: 332px; ">								
+								<a4j:ajax event="keyup"></a4j:ajax>
+								</h:inputText>								
+							</h:column>
+							<h:column>
+								<rich:message for="lblDireccion" ajaxRendered="true"></rich:message>
+							</h:column>
+							<h:column >
+								<h:outputLabel value="Telefono"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:inputText id="lblTelefono" 
+								value="#{ordencompraMB.proveedor.protel}" 
+								required="true" 
+								requiredMessage="Ingrese Telefono del proveedor"
+								style="width: 330px; "
+								converterMessage="Solamente Digitos">							
+								<a4j:ajax event="keyup"></a4j:ajax>
+								<f:convertNumber type="number" integerOnly="true" locale="en_US"/>
+								</h:inputText>								
+							</h:column>
+							<h:column>
+								<rich:message for="lblTelefono" ajaxRendered="true"></rich:message>
+							</h:column>
+							<h:column>
+								<h:outputText></h:outputText>
+							</h:column>
+					 		<h:column>
+					 			<h:commandButton 	id="asignarProveedor"															 
+													value="Asignar" 
+													title="Asignar"													
+													disabled="#{ordencompraMB.habSel.getCantProveedores() != 0}"
+													action="#{ordencompraMB.registrarNuevoProveedor()}"																	
+					 								/>
+					 		</h:column>
+				 		</h:panelGrid>
+				 	</rich:tab>
+				</rich:tabPanel>
+				</fieldset>
+		 	</div>
+		</h:form>
+		 	<!-- Separacion de prudencia -->
+		 	<h:form>
+		 	<div class="condiProveedor">
+		 	<fieldset>
+		 		<legend><span class="subtitulo">Condiciones de Proveedor</span></legend>
+		 		<h:panelGrid columns="2" cellspacing="3">
+			 		<h:column>
+			 			<h:outputLabel for="lblGarantia" value="Garantia"></h:outputLabel>
+			 		</h:column>
+			 		<h:column>
+			 			<h:inputText 	id="lblGarantia" 
+			 							value="#{ordencompraMB.cotizacionproveedor.garantia}" 
+			 							required="true" 
+			 							requiredMessage="Ingrese la garantía."
+			 							style="width:400px" >
+			 			<a4j:ajax event="keyup"></a4j:ajax>
+			 			</h:inputText>
+			 			<rich:message for="lblGarantia" ajaxRendered="true"></rich:message>
+			 		</h:column>
+					
+					<h:column>
+			 			<h:outputLabel for="lblFormaPago" value="Forma de Pago"></h:outputLabel>
+			 		</h:column>
+			 		<h:column>
+			 			<h:inputText id="lblFormaPago" value="#{ordencompraMB.cotizacionproveedor.formapago}" required="true" requiredMessage="Ingrese la forma de pago." style="width:400px" >
+						<a4j:ajax event="keyup"></a4j:ajax>
+			 			</h:inputText>
+			 			<rich:message for="lblFormaPago" ajaxRendered="true"></rich:message>
+			 		</h:column>
+			 		
+			 		<h:column>
+			 			<h:outputLabel for="lblTiempoEntrega" value="Tiempo de Entrega"></h:outputLabel>
+			 		</h:column>
+			 		<h:column>
+			 			<h:inputText id="lblTiempoEntrega" value="#{ordencompraMB.cotizacionproveedor.tiempoentrega}" required="true" requiredMessage="Ingrese el tiempo de entrega." style="width:400px" >
+			 			<a4j:ajax event="keyup"></a4j:ajax>
+			 			</h:inputText>
+			 			<rich:message for="lblTiempoEntrega" ajaxRendered="true"></rich:message>
+			 		</h:column>
+		 		</h:panelGrid>
+		 	</fieldset>
+		 	<br/>
+		 	<h:panelGrid column="2">
+		 	<h:column>
+		 	<h:outputLabel for="lblObservacion" value="Observación:"></h:outputLabel>
+		 	</h:column>
+		 	<h:column>		 	
+		 	<h:inputTextarea id="lblObservacion" 
+		 				value="#{ordencompraMB.ordencompra.observacion}"
+		 				style="width:580px">
+		 	<a4j:ajax event="keyup"></a4j:ajax>
+		 	</h:inputTextarea>		 	
+		 	</h:column>
+		 	
+		 	</h:panelGrid>
+		 	</div>
+		</h:form>
+	</div>
+	<div class="upRight">
+	
+		 	<div class="registroArticulo">	
+		 	<fieldset>
+		 		<legend><span class="subtitulo">Registro de Articulos</span></legend>	
+				<h:form>
+				<rich:tabPanel id="tabPanel2" switchType="ajax" activeItem="#{ordencompraMB.habSel.getArttab()}"> 		 		
+				 	<rich:tab header="Buscar Articulo" label="BuscarArticulos" name="arttab1" immediate="true">
+				 		<h:panelGrid columns="3" cellspacing="5">
+					 		<h:column>
+					 			<h:outputLabel for="filtro2" value="Filtrar por Descripcion: "></h:outputLabel>
+					 		</h:column>					 		
+							<h:column>
+								<h:inputText id="filtro2"
+											value="#{ordencompraMB.descripcionArticulo}"
+											style="width:300px"
+											required="true"
+											requiredMessage="Se necesita la descripcion a buscar." >
+								</h:inputText>
+								<rich:message for="filtro2" ajaxRendered="true"></rich:message>
+							</h:column>
+					 		<h:column>
+					 					<a4j:commandButton  status="articuloStatus"
+					 										value="Buscar"
+					 										action="#{ordencompraMB.registroArtBehavior()}"
+					 										render="tabpanel2 @form"
+					 										/>
+										<a4j:status name="articuloStatus">
+											<f:facet name="start">
+											<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+											</f:facet>
+										</a4j:status>
+							</h:column>
+				 		</h:panelGrid>
+				 		<div class="separador"></div>
+				 		<rich:extendedDataTable	id="articulos"
+				 							value="#{ordencompraMB.habSel.articulos}"
+				 							var="articulo"
+				 							rendered="#{not empty ordencompraMB.habSel.articulos}"
+				 							rows="#{ordencompraMB.habSel.getCantArticulos()}"
+				 							style="width:540px;height:120px;">
+				 			<rich:column width="22">
+				 				<f:facet name="header"></f:facet>
+				 				<h:commandButton image="../../../dist/images/add-icon.png"
+										title="Asignar Articulo"
+										action="#{ordencompraMB.asignarArticulo(articulo)}"
+										style="width:12px;"/>
+							</rich:column>
+				 			<rich:column width="515">
+								<f:facet  name="header" >Descripcion</f:facet>
+								<h:outputText value="#{articulo.artdes}"/>
+							</rich:column>							
+							
+						</rich:extendedDataTable>
+						
+						
+				    </rich:tab>		            		
+				 	
+				 	<rich:tab header="Asignar Articulos" label="AsignarArticulos" name="arttab2" immediate="true" >
+				 		<h:outputText value="No se encontro el artículo. Ingrese los datos correspondientes." style="color:red; font-weight:bold"
+				 					  rendered="#{ordencompraMB.habSel.getCantArticulos() == 0 and ordencompraMB.habSel.isBuscarArt() }" 
+				 		 />
+				 		<h:panelGrid columns="2" cellspacing="5"> 		
+							<rich:column>
+					 			<h:outputLabel for="lblDescripcion" value="Descripcion"></h:outputLabel>
+					 		</rich:column>
+					 		<rich:column width="400">
+					 			<h:inputText style="width:450px;" 
+					 						id="lblDescripcion" 
+					 						value="#{ordencompraMB.detalleoc.artdes}" 
+					 						required="true" 
+					 						requiredMessage="Ingrese Artículo"
+					 						disabled="true">
+					 			<a4j:ajax event="keyup"></a4j:ajax>
+					 			</h:inputText>
+					 			<rich:message for="lblDescripcion" ajaxRendered="true"></rich:message>					 			
+					 		</rich:column>					 		
+					 		<rich:column>
+					 			<h:outputLabel for="lblEspecifica" value="Especifica"></h:outputLabel>
+					 		</rich:column>
+					 		<rich:column>
+					 			<h:selectOneMenu id="lblEspecifica" value="#{ordencompraMB.detalleoc.especifica}" required="true" requiredMessage="Seleccione alguna específica" >
+					 				<f:selectItem itemValue="0" 	 itemLabel="Elija Especifica"></f:selectItem>
+									<f:selectItem itemValue="II" itemLabel="II. Equipos y bienes duraderos"></f:selectItem>
+									<f:selectItem itemValue="III" itemLabel="III. Materiales e Insumos"></f:selectItem>
+									<f:selectItem itemValue="VII" itemLabel="VII. Otros gastos elegibles"></f:selectItem>
+									<f:selectItem itemValue="VIII" itemLabel="VIII. Gastos de Gestión"></f:selectItem>
+									<a4j:ajax event="change"></a4j:ajax>
+								</h:selectOneMenu>
+								<rich:message for="lblEspecifica" ajaxRendered="true"></rich:message>
+					 		</rich:column>
+					 		
+					 									
+							<h:column>
+								<h:outputText></h:outputText>
+							</h:column>
+					 		<h:column>
+					 			<h:commandButton 	value="Registrar"
+					 								title="Registrar"
+					 								action="#{ordencompraMB.registrarNuevoArticulo()}"
+					 								disabled="true"/>
+					 		</h:column>
+				 		</h:panelGrid>
+				 	</rich:tab>
+				</rich:tabPanel>
+				</h:form>
+			</fieldset>
+		 	</div>
+		 	
+		 	<div class="cotiArticulo">
+		 		<h:form>
+		 		<fieldset>
+		 		<legend><span class="subtitulo">Cotizacion Articulo</span></legend>
+		 		
+		 		<h:panelGrid columns="2" cellspacing="3" >
+			 		<h:column>
+			 			<h:outputLabel for="marca" value="Marca   " ></h:outputLabel>
+			 		</h:column>
+			 		<h:column>
+			 			<rich:autocomplete id="marca" mode="ajax" 
+						                           value="#{ordencompraMB.detalleoc.marca}"  
+						                           autocompleteMethod="#{ordencompraMB.buscarMarca}" 
+						                           autofill="false" 
+						                           selectedItemClass="selCtl" 
+						                           required="true"
+						                           requiredMessage="Ingrese la marca del artículo"> 
+						</rich:autocomplete>
+			 		</h:column>
+					<h:column>
+			 			<h:outputLabel for="lbldetalle" value="Detalle"></h:outputLabel>
+			 		</h:column>
+			 		<h:column>
+			 			<h:inputText id="lbldetalle" value="#{ordencompraMB.detalleoc.detalle}" style="width:500px" >
+			 				<a4j:ajax event="keyup" render="grabarArticulo"></a4j:ajax>
+			 			</h:inputText>
+			 		</h:column>			
+
+			 	</h:panelGrid>
+			 	<h:panelGrid columns="4">
+							<h:column>
+					 			<h:outputLabel for="lblCantidad" value="Cantidad"></h:outputLabel>
+					 		</h:column>					 		
+					 		<h:column>
+					 			<h:inputText 	id="lblCantidad" 
+					 							value="#{ordencompraMB.detalleoc.cantidad}"
+					 							required="true"
+					 							requiredMessage="Ingrese la cantidad.">
+					 				<a4j:ajax event="keyup" render="lblPrecioTotal"></a4j:ajax>
+					 			</h:inputText>
+					 		</h:column>
+							<h:column>
+					 			<h:outputLabel for="lblUnidad" value="Unidad:"></h:outputLabel>
+					 		</h:column>
+					 		<h:column>
+								<h:selectOneMenu id="lblUnidad" value="#{ordencompraMB.detalleoc.unidmed}">									
+									<f:selectItems value="#{ordencompraMB.getUnidades()}"></f:selectItems>
+									<a4j:ajax event="change"/>
+								</h:selectOneMenu>
+					 		</h:column>					 							 		
+					 					 	
+							<h:column>
+							
+								<h:outputLabel for="lblMoneda" value="Moneda"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:selectOneMenu id="lblMoneda" value="#{ordencompraMB.detalleoc.moneda}" >
+									<f:selectItem itemValue="0"     itemLabel="NUEVO SOL"></f:selectItem>
+							 <!--	<f:selectItem itemValue="1" 	itemLabel="DOLAR AMERICANO"></f:selectItem>
+									<f:selectItem itemValue="2"		itemLabel="EURO"></f:selectItem> -->
+									<a4j:ajax event="change"/>
+								</h:selectOneMenu>
+							</h:column>
+							<h:column>
+								<h:outputLabel for="lblPrecio" value="Precio" rendered="false"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:selectOneMenu 	id="lblPrecio" rendered="false"
+													value="#{ordencompraMB.detalleoc.tipoprecio}"
+													required="true"
+													requiredMessage="Ingrese el precio unitario.">
+									<f:selectItem itemValue="0" itemLabel="LOCAL"></f:selectItem>
+									<f:selectItem itemValue="1" itemLabel="CIF"></f:selectItem>
+									<f:selectItem itemValue="2" itemLabel="FOB"></f:selectItem>
+									<f:selectItem itemValue="3" itemLabel="F+B"></f:selectItem>
+									<f:selectItem itemValue="4" itemLabel="EXON"></f:selectItem>
+									<f:selectItem itemValue="5" itemLabel="CIP"></f:selectItem>
+									<a4j:ajax event="change"/>									
+								</h:selectOneMenu>
+							</h:column>
+
+							<h:column>
+								<h:outputLabel for="lblPrecioUnit" value="Precio Unit:"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:inputText id="lblPrecioUnit" value="#{ordencompraMB.detalleoc.preciounit}">
+									<a4j:ajax event="keyup" render="lblPrecioTotal" ></a4j:ajax>
+								</h:inputText>
+							</h:column>
+							
+							<h:column>
+								<h:outputLabel for="lblImpuesto" value="Impuesto"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:selectOneMenu id="lblImpuesto" value="#{ordencompraMB.detalleoc.impuesto}"  
+									valueChangeListener="#{ordencompraMB.agregarIGV}" >
+									
+									<f:selectItem itemValue="0" itemLabel="ELIJA IMPUESTO"></f:selectItem>
+									<f:selectItem itemValue="1" itemLabel="INCLUYE IGV"></f:selectItem>
+									<f:selectItem itemValue="2" itemLabel="NO INCLUYE IGV"></f:selectItem>
+									<a4j:ajax render="lblPrecioTotal"></a4j:ajax>
+								</h:selectOneMenu>
+								
+							</h:column>
+
+							<h:column>
+								<h:outputLabel for="lblPrecioTotal" value="Precio Total"></h:outputLabel>
+							</h:column>
+							<h:column>
+								<h:inputText  id="lblPrecioTotal" value="#{ordencompraMB.detalleoc.subtotal}" disabled="true">
+									<a4j:ajax event="keyup"></a4j:ajax>
+								</h:inputText>
+							</h:column>
+						</h:panelGrid>
+						<h:commandButton 
+										title="Grabar DetalleOC"																				
+										actionListener="#{ordencompraMB.grabarDetalleOC(ordencompraMB.detalleoc)}"										
+										value="Grabar y Siguiente Articulo">											
+						</h:commandButton>
+		 		</fieldset>
+		 		</h:form>
+		 	</div>
+		
+	</div>
+	
+	<div class="down">
+	<fieldset>
+		<h:form id="resumenoc">
+			<div class="titulo" align="center">				
+				<h2>RESUMEN DE ORDEN DE COMPRA</h2>
+			</div>			
+			<h:panelGrid columns="4" cellspacing="2">
+				<h:column>
+					<h:outputLabel for="nroExped" value="Nº Hoja Requerimiento: "></h:outputLabel>
+				</h:column>
+				<h:column>
+					<h:inputText 	id="nroExped" 
+									value="#{ordencompraMB.ordencompra.referencia}" 
+									style="width: 273px; "
+									required="true"
+									requiredMessage="Ingrese nro. Hoja de Requerimiento">
+						<rich:placeholder value="Ingrese Nº Hoja de Requerimiento"/>
+						<a4j:ajax event="keyup"></a4j:ajax>
+					</h:inputText>
+					<rich:message for="nroExped" ajaxRendered="true"></rich:message>
+				</h:column>
+				<h:column/>
+				<h:column/>
+				<h:column>
+		 			<h:outputLabel for="txtRazonSocial" value="Razon Social:"/>
+		 		</h:column>
+		 		<h:column>
+		 			<h:inputText disabled="true" id="txtRazonSocial" value="#{ordencompraMB.proveedor.getProrazsoc()}" styleClass="txtLarge"/>
+		 		</h:column>	
+				<h:column>
+					<h:outputLabel for="fechaOC" value="Fecha de Orden:"></h:outputLabel>
+				</h:column>
+				<h:column>
+					<h:inputText id="fechaOC" value="#{ordencompraMB.obtenerFechaOC()}" disabled="true"></h:inputText>
+			 	</h:column>
+			 	<h:column>
+		 			<h:outputLabel for="txtRUC" value="RUC:"/>
+		 		</h:column>
+		 		<h:column>
+		 			<h:inputText disabled="true" id="txtRUC" value="#{ordencompraMB.proveedor.proruc}" styleClass="txtMediano" style="width: 273px; "/>
+		 		</h:column>
+			 	<h:column>
+			 		<h:outputLabel for="nroOC" value="Nro de OC"></h:outputLabel>
+			 	</h:column>
+			 	<h:column>	
+			 		<h:inputText id="nroOC" value="#{ordencompraMB.ordencompra.ocpreimpresoini}" disabled="true"></h:inputText>
+		 		</h:column>
+								
+					 			 			
+		 	</h:panelGrid>
+		 </h:form>
+		 	
+		 <h:form>		 	
+		 	
+		 	<div class="separador"></div>
+		 	
+		 	<rich:extendedDataTable	 id="resumen"
+	 							value="#{ordencompraMB.detallesoc}"
+	 							var="detalle"
+	 							rows="#{ordencompraMB.getCantidadDetOC()}"
+	 							style="width:1165px"
+	 							 >
+	 							
+				<rich:column width="80">
+					<f:facet name="header">Especifica</f:facet>
+					<h:outputText value="#{detalle.especifica}"></h:outputText>
+					
+				</rich:column>
+				<rich:column width="80">
+					<f:facet name="header">Codigo</f:facet>
+					<h:outputText value="#{detalle.artcod}"></h:outputText>
+				</rich:column>
+				<rich:column width="270">
+					<f:facet name="header">Descripcion</f:facet>
+					<h:outputText value="#{detalle.artdes}"></h:outputText>
+				</rich:column>
+				<rich:column width="100">
+					<f:facet name="header">Marca</f:facet>
+					<h:outputText value="#{detalle.marca}"></h:outputText>
+				</rich:column>	 
+				<rich:column width="270">
+					<f:facet name="header">Detalle</f:facet>
+					<h:outputText value="#{detalle.detalle}"></h:outputText>
+				</rich:column>	 
+				<rich:column width="80">
+					<f:facet name="header">Cantidad</f:facet>
+					<h:outputText value="#{detalle.cantidad}"></h:outputText>
+				</rich:column>	 
+				<rich:column width="80">
+					<f:facet name="header">Precio Unit.</f:facet>
+					<h:outputText value="#{detalle.preciounit}"></h:outputText>
+				</rich:column>	 
+				<rich:column width="80">
+					<f:facet name="header">IGV</f:facet>
+						<h:outputText value="#{detalle.igv}"></h:outputText>
+					<f:facet name="footer">
+						<h:outputText value="Total: "></h:outputText>
+					</f:facet>
+				</rich:column>	 
+				<rich:column width="80">
+					<f:facet name="header">Precio Total</f:facet>
+						<h:outputText value="#{detalle.subtotal}"></h:outputText>
+					<f:facet name="footer">	 					
+	 					<h:outputText value="#{ordencompraMB.montoTotal}" /> 					
+	 				</f:facet>	
+				</rich:column>
+				<rich:column width="35" >
+					<f:facet name="header"></f:facet>
+					<div align="center">
+						<h:commandButton image="../../../dist/images/eliminar.png"							
+							title="Eliminar Detalle"
+							action="#{ordencompraMB.eliminarDetalle(detalle)}"
+							style="width:16px;"
+							onclick="return confirm('¿Desea eliminar este Registro?')">							
+						</h:commandButton>
+						
+						
+
+					</div>
+				</rich:column>
+				
+			
+	 		</rich:extendedDataTable>
+		 	
+		 	<div class="contBtnFinal">
+		 			<a4j:commandButton  styleClass="btnGenerar"
+		 								value="Generar y Enviar Orden de Compra"
+		 								action="#{ordencompraMB.registrarOrdencompra()}"
+		 								status="generarocStatus"
+		 								render="@all"/>
+					<a4j:status name="generarocStatus">
+						<f:facet name="start">
+							<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+						</f:facet>
+					</a4j:status>	    	
+			</div>
+		 	
+		</h:form>
+	</fieldset>
+	</div>
+</div>
+</f:view>
+</h:body>
+</html>

@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:sec="http://www.springframework.org/schema/security"	
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd        
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd		
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+  
+	<context:component-scan base-package="pe.edu.unmsm.quipucamayoc" />
+	<context:property-placeholder location="classpath:config.properties"/>	
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" 
+		 p:driverClassName="${jdbc.driverClassName}" 
+		 p:url="${jdbc.url}" 
+		 p:username="${jdbc.username}" 
+		 p:password="${jdbc.password}">
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory">
+	</bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		
+		<property name="dataSource" ref="dataSource"></property>
+		
+		<property name="packagesToScan" value="pe.edu.unmsm.quipucamayoc"></property>
+		
+    	<property name="mappingLocations" value="classpath:pe/edu/unmsm/quipucamayoc/dao/impl/hbm/*.hbm.xml"/>  
+    	  			
+		<property name="hibernateProperties">
+			<props>      
+		  		<prop key="hibernate.dialect">${hibernate.dialect}</prop>        
+		  		<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+		
+	</bean>	 
+	 
+
+ 
+	<tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+	 
+	 <bean name="openSessionInViewInterceptor"
+        class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+        <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<sec:http auto-config="true"  use-expressions="true">
+		<sec:intercept-url pattern="/pages/usu/**" access="isAuthenticated()"/>
+		<sec:intercept-url pattern="/pages/common/login.jsf" access="permitAll"/>		       
+		<sec:form-login login-page="/pages/common/login.jsf"/>		
+	    <sec:logout invalidate-session="true" logout-success-url="/pages/common/login.jsf" />
+	    <sec:session-management invalid-session-url="/pages/common/login.jsf" >
+	    	<sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+	    </sec:session-management>		
+	</sec:http>
+		
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider>
+			<sec:jdbc-user-service data-source-ref="dataSource"					
+					users-by-username-query="
+         			SELECT USUNOM, PASSWORD,ESTADO
+         			FROM USUARIO_FINZYT
+         			WHERE USUNOM = ?" 
+       				authorities-by-username-query="
+        			SELECT USUNOM, ROL
+        			FROM USUARIO_FINZYT			        
+			        WHERE USUNOM = ? "
+			/>
+		</sec:authentication-provider>
+	</sec:authentication-manager>	
+</beans>

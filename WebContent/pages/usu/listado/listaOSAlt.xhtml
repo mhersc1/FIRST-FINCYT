@@ -1,0 +1,150 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Listado de Ordenes de Compra</title>
+</h:head>
+<ui:include src="/pages/common/welcome.xhtml"/>
+<f:view>
+<h:body>
+	<h:form>
+	<div class="cabezera">
+		<img src="../../../dist/images/logo_quipu.png" />
+		<ui:include src="/pages/common/logout.xhtml"/>
+	</div>
+	</h:form>
+	<h3 align="center">Reporte de Ordenes de Servicio</h3>
+	<h:form id="form">
+		<rich:extendedDataTable id="listadoOS" 
+			value="#{ordenservicioMB.ordenes}" var="os" frozenColumns="2"
+			rows="#{ordenservicioMB.habSel.getCantOSsConsult()}">
+			<f:facet name="noData">
+                No hay Ordenes de Servicio por Atender, puede seguir con su trabajo.
+            </f:facet>
+			<rich:column filterValue="#{ordenFiltroMB.numeroFilter}"
+				filterExpression="#{fn:containsIgnoreCase(os.id.osnro,ordenFiltroMB.numeroFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Nº:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.numeroFilter}" style="width:100px">
+							<a4j:ajax event="blur" render="listadoOS" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="numero" value="#{os.id.osnro}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.rsocialFilter}"
+				filterExpression="#{fn:containsIgnoreCase(os.cotizacionproveedor.razonsocial,ordenFiltroMB.rsocialFilter)}"
+				filterType="custom" style="text-align:center" width="300">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Razon Social:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.rsocialFilter}" style="width:280px">
+							<a4j:ajax event="blur" render="listadoOS" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="razonsocial"
+					value="#{os.cotizacionproveedor.razonsocial}" />
+			</rich:column>
+
+			<rich:column filterValue="#{ordenFiltroMB.rucFilter}"
+				filterExpression="#{fn:containsIgnoreCase(os.cotizacionproveedor.ruc,
+			            								ordenFiltroMB.rucFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="RUC:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.rucFilter}" style="width:100px">
+							<a4j:ajax event="blur" render="listadoOS" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="ruc" value="#{os.cotizacionproveedor.ruc}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.fechaFilter}"
+				filterExpression="#{fn:containsIgnoreCase(os.fechaos,
+			            								ordenFiltroMB.fechaFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Fecha OS: "/><br/>
+						<rich:calendar style="width:100px">
+							<a4j:ajax event="change" render="listadoOS" execute="@this"></a4j:ajax>
+						</rich:calendar>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="fechaOS" value="#{os.fechaos}"></h:outputText>
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.estadoFilter}"
+				filterExpression="#{fn:containsIgnoreCase(os.osestado,
+			            								ordenFiltroMB.estadoFilter)}"
+				filterType="custom" style="text-align:center">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Estado:"></h:outputText>
+						<h:selectOneMenu value="#{ordenFiltroMB.estadoFilter}">
+							<f:selectItem itemValue="1" itemLabel="GENERADO"></f:selectItem>
+							<f:selectItem itemValue="2" itemLabel="VALIDADO"></f:selectItem>
+							<a4j:ajax event="change" render="listadoOS" execute="@this"></a4j:ajax>
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="estado1" style="color:blue; font-weight:bold"  value="GENERADA" rendered="#{os.osestado == 1}"></h:outputText>
+				<h:outputText id="estado2" style="color:green; font-weight:bold" value="VALIDADA" rendered="#{os.osestado == 2}"></h:outputText>
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Monto Total"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{os.totalos}" />
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Total IGV"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{os.totaligv}" />
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Ver OS: "/>
+				</f:facet>   
+			      		  	<h:commandButton 
+			      		    	id="mostrarOS"
+			      		    	image="../../../images/btnBusca.gif" 
+	    						value="Mostrar Orden Servicio"
+	    						type="submit"  								
+								action="#{ordenservicioMB.cargarOS(os.id.osnro,util.ver)}"
+								title="Ver detalle OS">
+							</h:commandButton>											
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Editar OS: "></h:outputText>
+				</f:facet>
+				<h:commandButton id="editarOS"
+								 value="Editar Orden Servicio"
+								 title="Editar Orden Servicio"
+								 image="/images/btnEditar.gif"
+								 style="width:20px;height : 20px;"
+								 rendered="#{usuarioFinzytMB.rol=='CAP' and os.osestado==1}"
+								 action="#{ordenservicioMB.cargarOS(os.id.osnro,util.editar)}"/>
+						<h:graphicImage 
+						  		value="/images/btnEditar_disabled.png"
+						  		style="width:20px;height : 20px;"
+						  		rendered="#{usuarioFinzytMB.rol=='CAP' and os.osestado != 1}"/>	 
+					</rich:column>				
+			
+		</rich:extendedDataTable>
+	</h:form>
+</h:body>
+</f:view>
+</html>

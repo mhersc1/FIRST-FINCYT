@@ -1,0 +1,158 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Listado de Ordenes de Compra</title>
+</h:head>
+<ui:include src="/pages/common/welcome.xhtml"/>
+<f:view>
+<h:body>
+	<h:form>
+	<div class="cabezera">
+		<img src="../../../dist/images/logo_quipu.png" />
+		<ui:include src="/pages/common/logout.xhtml"></ui:include>
+	</div>
+	</h:form>
+	<h3 align="center">Reporte de Pecosas</h3>
+	<h:form id="form">
+		<rich:extendedDataTable id="listadoPecosa" 
+			value="#{pecosaMB.pecosas}" var="pecosa" frozenColumns="2"
+			rows="#{pecosaMB.habSel.getCantPecosasConsult()}"
+			>
+			<f:facet name="noData">
+                			No hay Pecosas para visualizar.
+            			</f:facet>
+			<rich:column filterValue="#{ordenFiltroMB.numeroPFilter}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.id.pecnro,ordenFiltroMB.numeroPFilter)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Nº Pecosa:" />
+						<h:inputText value="#{ordenFiltroMB.numeroPFilter}">
+							<a4j:ajax event="blur" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="numeroP" value="#{pecosa.id.pecnro}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.numeroFilter}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.ordencompra.id.ocnro,ordenFiltroMB.numeroFilter)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Nº OC:" />
+						<h:inputText value="#{ordenFiltroMB.numeroFilter}">
+							<a4j:ajax event="blur" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="numeroO"
+					value="#{pecosa.ordencompra.id.ocnro}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.nroExp}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.ordencompra.referencia,
+			            								ordenFiltroMB.nroExp)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="RUC:" />
+						<h:inputText value="#{ordenFiltroMB.nroExp}">
+							<a4j:ajax event="blur" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="nroExped" value="#{pecosa.ordencompra.referencia}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.factura}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.ordencompra.factura,
+			            								ordenFiltroMB.factura)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Nº Factura:"></h:outputText>
+						<h:inputText>
+							<a4j:ajax event="blur" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="factura" value="#{pecosa.ordencompra.factura}"></h:outputText>
+			</rich:column>				
+			<rich:column filterValue="#{ordenFiltroMB.fechaFilter}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.fechapec,
+			            								ordenFiltroMB.fechaFilter)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Fecha Pecosa:"></h:outputText>
+						<rich:calendar>
+							<a4j:ajax event="change" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</rich:calendar>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="fechaPec" value="#{pecosa.fechapec}"></h:outputText>
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.estadoFilter}"
+				filterExpression="#{fn:containsIgnoreCase(pecosa.pecestado,
+			            								ordenFiltroMB.estadoFilter)}"
+				filterType="custom">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Estado:"></h:outputText>
+						<h:selectOneMenu value="#{ordenFiltroMB.estadoFilter}">
+							<f:selectItem itemValue="1" itemLabel="GENERADO"></f:selectItem>
+							<f:selectItem itemValue="2" itemLabel="VALIDADO"></f:selectItem>
+							<a4j:ajax event="change" render="listadoPecosa" execute="@this"></a4j:ajax>
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="estado1" style="color:blue; font-weight:bold"  value="GENERADA" rendered="#{pecosa.pecestado == 1}"></h:outputText>
+				<h:outputText id="estado2" style="color:green; font-weight:bold" value="VALIDADA" rendered="#{pecosa.pecestado == 2}"></h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Monto Total"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{pecosa.pecmontot}" />
+			</rich:column>
+ 			<rich:column style="text-align:center">   
+ 				<f:facet name="header">
+ 					<h:outputText value="Ver Pecosa:"/>
+ 				</f:facet>
+      		  	<h:commandButton 
+      		    	id="mostrarOC"
+      		    	image="../../../images/btnBusca.gif" 
+  					value="Mostrar Orden Compra"
+  					type="submit"
+  					style="width:20px;height : 20px;"  								
+					action="#{pecosaMB.cargarPecosa(pecosa.id.pecnro,util.ver)}"
+					title="Ver detalle OC">
+				</h:commandButton>											
+            </rich:column>
+            <rich:column>
+            	<f:facet name="header">
+            	<h:outputText value="Editar Pecosa: "/>
+            	</f:facet>
+            	<h:commandButton  id="editarPecosa"
+            						value="Editar Pecosa"
+            						title="Editar Pecosa"
+            						image="/images/btnEditar.gif"
+            						style="width:20px;height : 20px;"
+            						rendered="#{usuarioFinzytMB.rol=='CAP' and pecosa.pecestado==1}"
+            						action="#{pecosaMB.cargarPecosa(pecosa.id.pecnro,util.editar)}"/>
+            					<h:graphicImage 
+						  		value="/images/btnEditar_disabled.png"
+						  		style="width:20px;height : 20px;"
+						  		rendered="#{usuarioFinzytMB.rol=='CAP' and pecosa.pecestado != 1}"/>	
+            </rich:column>
+		</rich:extendedDataTable>
+	</h:form>
+</h:body>
+</f:view>
+</html>

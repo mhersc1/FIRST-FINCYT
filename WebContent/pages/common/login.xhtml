@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../dist/css/normalize.css"></link>
+	<title>Bienvenido</title>
+</h:head>
+<h:body>
+
+<f:view>
+<div class="contenido">
+	<h:form>
+	<div class="cabezera">
+		<img src="../../dist/images/logo_quipu.png" />
+	</div>
+	</h:form>
+	<div class="contenido">
+		<div class="upLeft">
+			<h2>Inicie Sesión</h2>
+			<h4>Entre al sistema ingresando su usuario y contraseña</h4>
+			<h:form styleClass="login">
+				<h:panelGrid columns="3" cellspacing="5">
+					<h:outputLabel for="usuario" value="Usuario"/>
+					<h:inputText id="usuario" value="#{usuarioFinzytMB.user}"/>
+					<h:outputText />
+					<h:outputLabel for="contrasenia" value="Contrasena"/>
+					<h:inputSecret id="contrasenia" value="#{usuarioFinzytMB.password}"/>
+					<h:outputText />
+					<h:outputText  />
+					
+					<h:commandButton 	id="iniciarSesion" value="Iniciar Sesion"
+										type="submit" 
+										action="#{usuarioFinzytMB.login()}"					
+										/>
+					<h:outputText  value="#{usuarioFinzytMB.errorLogueo}" style="color:red"/>
+			</h:panelGrid>
+			</h:form>
+		</div>
+		<div class="upRight">
+			<h2>Sistema Integral de Financiamiento ZYT</h2>
+			<p>El Sistema de Gestion de Financiamiento y el area funcional asociado a ello como parte de la 
+			   estructura organizativa de las entidades juega un papel imprescindible en el proceso de gestion 
+			   aplicacion de las herramientas de gestion tales como de calidad y control interno. gestion estructura 
+			   organizativa de las entidades juega un papel imprescindible en el proceso de gestion aplicacion de las 
+			   herramientas de gestion; tales como de calidad y control interno.</p>
+		</div>
+		
+	</div>
+	<div class="alwaysBottom">
+		
+	</div>
+</div>
+</f:view>
+
+</h:body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 07/06/2014 03:46:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Proveedor" table="PROVEEDOR" schema="QPLOGISTICA">
+        <id name="proruc" type="java.lang.String">
+            <column name="PRORUC" />
+            <generator class="assigned" />
+        </id>
+        <property name="prodir" type="java.lang.String">
+            <column name="PRODIR" />
+        </property>
+        <property name="prorazsoc" type="java.lang.String">
+            <column name="PRORAZSOC" />
+        </property>
+        <property name="protel" type="java.lang.String">
+            <column name="PROTEL" />
+        </property>
+        <property name="proconnom" type="java.lang.String">
+            <column name="PROCONNOM" />
+        </property>
+        <property name="proconapepat" type="java.lang.String">
+            <column name="PROCONAPEPAT" />
+        </property>
+        <property name="proconapemat" type="java.lang.String">
+            <column name="PROCONAPEMAT" />
+        </property>
+        <property name="pronom" type="java.lang.String">
+            <column name="PRONOM" />
+        </property>
+        <property name="proapepat" type="java.lang.String">
+            <column name="PROAPEPAT" />
+        </property>
+        <property name="proapemat" type="java.lang.String">
+            <column name="PROAPEMAT" />
+        </property>        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,186 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<script src="../../../dist/js/exporting.js"></script>
+	<title>Resumen de Orden de Compra</title> 
+</h:head>
+	<f:view>
+
+		<h:form id="notaForm">
+
+			<rich:panel header=">> Resumen de Orden de Compra">
+
+
+				<table id="notaTable" style="font-size: 13px">
+					<tr>
+						<td colspan="3"><rich:panel id="panelOrdenDeCompra"
+								header=">>> Orden de Compra ">
+
+								<h:panelGrid columns="2" style="font-size: 13px;">
+
+									<h:outputText value="Nº OC " styleClass="label"></h:outputText>
+									<h:panelGroup>
+										<h:panelGrid columns="3" style="font-size: 13px;">
+											<h:outputText readonly="true" size="13" id="preimpreso"
+												value="#{ordencompraMB.ordenDecompra.id.ocnro}" style="width: 120px; "/>
+										</h:panelGrid>
+									</h:panelGroup>
+
+									<h:outputText value="Estado de la OC:" styleClass="label"></h:outputText>
+									<h:panelGroup>
+										<h:outputText readonly="true" id="ocenviada" value="OC GENERADA"
+											size="13" style="color:green; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 1}" />
+
+										<h:outputText readonly="true" id="ocvalidada" value="OC VALIDADA"
+											size="13" style="color:blue; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 2}" />
+											
+										<h:outputText readonly="true" id="ocConPecosa" value="PECOSA GENERADA"
+											size="13" style="color:green; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 3}" />
+										
+										<h:outputText readonly="true" id="ocValPecosa" value="PECOSA VALIDADA"
+											size="13" style="color:blue; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 4}" />
+
+									</h:panelGroup>
+
+
+									<h:outputText value="Observacion" styleClass="label"></h:outputText>
+									<h:inputText id="ocdes"
+										value="#{ordencompraMB.ordenDecompra.observacion}" size="80" >
+									<a4j:ajax event="keyup"/>	
+									</h:inputText>
+
+
+									<h:outputText value="Fecha Orden Compra:" styleClass="label" />
+									<h:outputText readonly="true" id="ocfec"
+										value="#{ordencompraMB.ordenDecompra.fechaoc}" size="15" style="width: 131px; "/>									
+									<h:outputText value="Nº Hoja de Requerimiento:" styleClass="label"></h:outputText>
+									<h:inputText id="proveido_de_oc"
+										value="#{ordencompraMB.ordenDecompra.referencia}">
+									<a4j:ajax event="keyup" />	
+									</h:inputText>
+
+								</h:panelGrid>
+
+							</rich:panel> 
+							<rich:panel id="panelArticulos" header=">>> Artículos ">
+								<rich:dataTable value="#{ordencompraMB.detalles}"
+									id="dataaa" align="center" width="100%" rows="11" var="detalle"
+									rowKeyVar="row">
+									<f:facet name="header">
+										<rich:columnGroup>
+											<rich:column >
+												<h:outputText value="Especifica" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Codigo" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Descripcion" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Marca" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Detalle" />
+											</rich:column>
+											<rich:column>
+												<h:outputText value="Cantidad "></h:outputText>
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Precio Unit." />
+											</rich:column>
+											<rich:column>
+												<h:outputText value="Elija impuesto:" />											
+											</rich:column>
+											<rich:column >
+												<h:outputText value="IGV" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Sub Total" />
+											</rich:column>
+										</rich:columnGroup>
+									</f:facet>
+									<rich:columnGroup>
+										<rich:column >
+											<h:outputText readonly="true" value="#{detalle.especifica}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText readonly="true" value="#{detalle.artcod}" />
+										</rich:column>
+										<rich:column>
+											<h:outputText readonly="true" value="#{detalle.artdes}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText readonly="true" value="#{detalle.marca}" />
+										</rich:column>
+										<rich:column >
+											<h:inputText value="#{detalle.detalle}">
+											<a4j:ajax event="keyup" />
+											</h:inputText>
+										</rich:column>
+										<rich:column>
+											<h:inputText value="#{detalle.cantidad}" valueChangeListener="#{detalle.calcularMontoEnFuncionDeCantidad}">
+											<a4j:ajax event="blur" render="igvAjax,subtotalAjax"/>																																	
+											</h:inputText>
+										</rich:column>
+										<rich:column >
+											<h:inputText value="#{detalle.preciounit}" valueChangeListener="#{detalle.calcularMontoEnFuncionDePrecioUnit}" >											
+											<a4j:ajax event="blur" render="igvAjax,subtotalAjax"/>																						
+											</h:inputText>
+										</rich:column>
+										<rich:column>										
+										<h:selectOneMenu id="lblImpuesto" value="#{detalle.impuesto}"  
+											valueChangeListener="#{detalle.calcularMontoEnFuncionDeSeleccionIGV}"
+											style="color:royalBlue; font-weight:bold" >									
+											<f:selectItem itemValue='1' itemLabel="INCLUYE IGV"/>
+											<f:selectItem itemValue='2' itemLabel="NO INCLUYE IGV"/>									
+											<a4j:ajax render="igvAjax,subtotalAjax"/>
+										</h:selectOneMenu>										
+										</rich:column>
+										<rich:column >											
+											<h:outputText id="igvAjax" value="#{detalle.igv}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText id="subtotalAjax" value="#{detalle.subtotal}" />
+										</rich:column>
+									</rich:columnGroup>
+								</rich:dataTable>
+							</rich:panel> <br />
+						</td>
+					</tr>
+					<tr>
+					<td>					
+					<a4j:commandButton	status="editarOC"
+										id="editarOC"
+										value="Confirmar Orden de Compra"
+										title="Confirmar Orden de Compra"
+										action="#{ordencompraMB.actualizarOrdenCompra()}"
+										onclick="return confirm('¿Está seguro de confirmar los cambios?')"										
+					/>					
+					</td>
+					<td>
+						<a4j:status name="editarOC">
+							<f:facet name="start">
+								<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+							</f:facet>
+						</a4j:status>
+											
+					</td>
+					</tr>
+				</table>
+			</rich:panel>
+		</h:form>		
+	</f:view>
+</html>

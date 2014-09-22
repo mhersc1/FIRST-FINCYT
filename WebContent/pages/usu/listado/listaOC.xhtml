@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:fn="http://java.sun.com/jsp/jstl/functions" >
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Reporte de Orden de Compra</title>
+</h:head>
+<h:body>
+
+<f:view>
+<div class="contenido">
+	<div class="cabezera">
+		<img src="../../../dist/images/logo_quipu.png" /> 
+		
+		<div class="topBtn" style="float:right;">
+			<h:commandButton id="cerrarSesion" value="Cerrar Sesión" type="button" />
+		</div>
+		
+	</div>
+	<h3>Reporte de Ordenes de Compra</h3>
+	<h:form>		
+		<rich:extendedDataTable id="table"
+								inmediate="true"								
+								value="#{ordencompraMB.ordenes}"
+                                var="orden"                                
+                                rendered="true"
+                                style="height:800px; width:900px;" >
+           
+            <rich:column>
+            	<f:facet name="header">
+            			<h:outputText value="Nº: "></h:outputText>
+            	</f:facet>
+            	<h:outputText value="#{orden.id.ocnro}" />
+            </rich:column>
+            
+            <rich:column filterValue="#{ordencompraMB.filtro.razonsocial}" width="130px"
+                         filterExpression="#{fn:containsIgnoreCase(orden.cotizacionproveedor.razonsocial,ordencompraMB.filtro.razonsocial)}"
+                         filterType="custom">
+                <f:facet name="header">
+                    <h:panelGroup>
+                        <h:outputText value="Razon Social: "/>
+                        <h:inputText value="#{ordencompraMB.filtro.razonsocial}" label="Razon Social" style="width:110px;">
+                            <a4j:ajax event="blur" render="table" execute="@this"/>
+                        </h:inputText>
+                    </h:panelGroup>
+                </f:facet>
+                <h:outputText value="#{orden.cotizacionproveedor.razonsocial}"/>
+            </rich:column>
+            
+            <rich:column filterValue="#{ordencompraMB.filtro.ruc}" width="318px"
+                         filterExpression="#{fn:containsIgnoreCase(orden.cotizacionproveedor.ruc,ordencompraMB.filtro.ruc)}"
+                         filterType="custom">
+                <f:facet name="header">
+                    <h:panelGroup>
+                        <h:outputText value="RUC: "/>
+                        <h:inputText value="#{ordencompraMB.filtro.ruc}" label="RUC " style="width:300px;">
+                            <a4j:ajax event="blur" render="table" execute="@this"/>
+                        </h:inputText>
+                    </h:panelGroup>
+                </f:facet>
+                <h:outputText value="#{orden.cotizacionproveedor.ruc}"/>
+            </rich:column>
+                        
+            <rich:column filterValue="#{ordencompraMB.filtro.fecha}" width="160"
+                         filterExpression="#{fn:containsIgnoreCase(orden.fechaoc,ordencompraMB.filtro.fecha)}"
+                         filterType="custom">
+                <f:facet name="header">
+                    <h:panelGroup>
+                        <h:outputText value="Fecha"/>                        
+                        <rich:calendar value="#{ordencompraMB.filtro.fecha}" id="fechaFiltro"  popup="true" datePattern="dd/MM/yyyy" showApplyButton="false" style="width:100px;"  >                        	
+                        </rich:calendar>                        
+                    </h:panelGroup>
+                </f:facet>
+                <h:outputText value="#{orden.fechaoc}"/>
+            </rich:column>
+                        
+            <rich:column filterValue="#{ordencompraMB.filtro.estado}"
+                         filterExpression="#{fn:containsIgnoreCase(orden.ocestado,ordencompraMB.filtro.estado)}"
+                         filterType="custom" width="114px;">
+                <f:facet name="header">
+                    <h:panelGroup>
+                        <h:outputText value="Estado"/>
+                        <h:selectOneMenu value="#{ordencompraMB.filtro.estado}" style="width:108px;">
+                            <f:selectItems value="#{orden.ocestado}"/>
+                            <a4j:ajax render="table" execute="@this" event="change"/>
+                        </h:selectOneMenu>
+                    </h:panelGroup>
+                </f:facet>
+                <h:outputText value="#{orden.ocestado}" />                
+            </rich:column>
+            
+            <rich:column>
+                <f:facet name="header">
+                   <h:outputText value="Monto Total"></h:outputText>
+                </f:facet>
+                <h:outputText value="#{orden.totaloc}"/>
+            </rich:column>
+            
+           <rich:column>
+                <f:facet name="header">
+                   <h:outputText value="Total IGV"></h:outputText>
+                </f:facet>
+                <h:outputText value="#{orden.totaligv}"/>
+            </rich:column>
+            
+            <rich:column width="70">
+                <f:facet name="header">
+                    <h:outputText value="Imprimir"/>
+                </f:facet>               	
+                <h:commandButton image="../../../dist/images/icon_imprimir.png"
+										title="ImprimirReportOC"																				
+										style="width:16px;" ></h:commandButton>
+            </rich:column>
+            
+        </rich:extendedDataTable>
+    </h:form>
+</div>
+</f:view>
+
+</h:body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="./dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="./dist/css/normalize.css"></link>
+	<title>Generar Pecosa</title>
+</h:head>
+<h:body>
+<f:subview>
+<h:form>
+	<rich:toolbar>
+		     <rich:dropDownMenu rendered="#{usuarioFinzytMB.menuOperaciones}" >            
+                <f:facet name="label"  > 
+                    <h:panelGroup  >
+                        <h:outputText value="Operaciones"/>
+                    </h:panelGroup>
+                </f:facet>
+                            	
+            	<rich:menuItem label="Generar Orden de Compra" action="#{ordencompraMB.loadCommon()}"	 value="Generar Orden de Compra" />
+	                              
+	            <rich:menuSeparator id="separadorOperaciones" />
+	            
+	            <rich:menuItem label="Generar Orden de Servicio" action="#{ordenservicioMB.loadCommon()}" value="Generar Orden de Servicio" rendered="true"/>            
+	            
+            	               
+            </rich:dropDownMenu>
+			<rich:dropDownMenu rendered="#{usuarioFinzytMB.menuConsultas}">
+				<f:facet name="label"  > 
+                    <h:panelGroup  >
+                        <h:outputText value="Consultas"/>
+                    </h:panelGroup>
+                </f:facet>
+                            	
+            	<rich:menuItem label="Consultar Ordenes de Compra"  action="#{ordencompraMB.cargarOrdenesCompra()}" value="Reporte de Orden de Compra" />
+	                              
+	            <rich:menuSeparator id="separadorConsultas" />
+	            
+	            <rich:menuItem label="Consultar Ordenes de Servicio" action="#{ordenservicioMB.cargarOrdenesServicio()}" value="Reporte de Orden de Servicio" rendered="true"/>
+	            
+	            <rich:menuSeparator id="separadorConsultas2" />
+				
+				<rich:menuItem label="Consultar Pecosas" action="#{pecosaMB.cargarPecosas()}" value="Reporte de Pecosas"/>
+			
+			</rich:dropDownMenu>			
+	</rich:toolbar>
+</h:form>
+</f:subview>
+
+
+<f:view>
+<h:form>
+    <rich:panel header=">> Generando Pecosa a partir de la Orden de Compra" style="font-size:13px;">
+    	<rich:panel id="panelOrdenDeCompra"	header=">>> Datos ">
+			<table>
+			<tr><td>
+			<h:panelGrid columns="2" style="font-size: 13px;">
+			
+				<h:outputLabel for="nropecosa" value="Nº Pecosa: "/>
+				
+				<h:inputText id="nropecosa" value="#{pecosaMB.pecosa.preimpresoinicial}" disabled="true"></h:inputText>
+			
+				<h:outputText value="Fecha de Registro:"></h:outputText>
+				<rich:calendar locale="es" id="fecha_ent"
+					value="#{pecosaMB.obtenerFechaOC()}"
+					datePattern="dd/MM/yyyy"
+					disabled="true">					
+				</rich:calendar>
+				
+				<h:outputText value="Solicito entregar a:"></h:outputText>
+				<h:inputText id="entregarA"
+							value="#{pecosaMB.pecosa.pecdes}">
+				<a4j:ajax event="keyup"></a4j:ajax>
+				</h:inputText>
+				
+				<h:outputText value="Con destino a:"></h:outputText>
+				<h:inputText id="dirDestino"
+							value="#{pecosaMB.pecosa.pecdesdir}">
+				<a4j:ajax event="keyup"></a4j:ajax>
+				</h:inputText>
+								
+				<h:outputText value="Nº Hoja de Requerimiento: " styleClass="label"></h:outputText>
+				<h:inputText readonly="true" id="expediente"
+					value="#{pecosaMB.ordencompra.referencia}">				
+				</h:inputText>
+				
+				<h:outputText value="Nº OC:" styleClass="label"></h:outputText>
+				<h:panelGroup>
+					<h:panelGrid columns="3" style="font-size: 13px;">
+						<h:inputText readonly="true" size="13" id="preimpreso"
+							value="#{pecosaMB.ordencompra.id.ocnro}" />
+					</h:panelGrid>
+				</h:panelGroup>			
+				
+				<h:outputText for="lblFactura" value="Factura:" styleClass="label"></h:outputText>
+				<h:inputText id="lblFactura"
+					value="#{pecosaMB.ordencompra.factura}" size="80" >
+				<a4j:ajax event="keyup"></a4j:ajax>
+				<rich:placeholder value="Ingrese el nroº de factura"/>	
+				</h:inputText>
+					
+				<h:outputText for="lblguia"  value="Guia de Remisión:" styleClass="label"></h:outputText>
+				<h:inputText id="lblguia" 
+					value="#{pecosaMB.ordencompra.guiaDeRemision}" size="80" >
+				<a4j:ajax event="keyup"></a4j:ajax>
+				<rich:placeholder value="Ingrese el nroº de Guía de remisión."/>	
+				</h:inputText>
+				
+				
+				<h:outputText value="Observacion:" styleClass="label"></h:outputText>
+				<h:inputTextarea id="lblObsPecosa" rows="2" cols="100" value="#{pecosaMB.pecosa.pecobs}">
+				<a4j:ajax event="keyup"></a4j:ajax>
+				</h:inputTextarea>
+			</h:panelGrid>
+			</td>
+			</tr>
+			</table>
+		</rich:panel> 
+		<rich:panel id="panelArticulos" header=">>> Artículos ">
+			<rich:dataTable value="#{pecosaMB.cargarDetalles()}"
+				id="dataaa" align="center" width="100%" rows="10" var="detalle"
+				rowKeyVar="row">
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Solicitado"></h:outputText>
+						</rich:column>
+						<rich:column colspan="5">
+							<h:outputText value="Despachado"></h:outputText>
+						</rich:column>
+						<rich:column colspan="2">
+							<h:outputText value="Valor"></h:outputText>
+						</rich:column>
+						<rich:column breakRowBefore="true" >
+							<h:outputText value="Especifica" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Cantidad" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Descripcion" />
+						</rich:column>
+						
+						<rich:column >
+							<h:outputText value="Detalles" />
+						</rich:column>
+						
+						<rich:column >
+							<h:outputText value="Marca" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Cantidad Despachada" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Unidad de Medida" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Precio Unitario" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Sub Total" />
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				<rich:columnGroup>
+					<rich:column >
+						<h:outputText value="#{detalle.especifica}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.cantidad}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.artdes}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.detalle}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.marca}" />
+					</rich:column>
+					<rich:column >
+						<h:inputText readonly="true" value="#{detalle.cantidad}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.unidmed}"></h:outputText>
+					</rich:column>
+					<rich:column >
+						<h:inputText readonly="true" value="#{detalle.preciounit}"></h:inputText>
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.subtotal}" />
+					</rich:column>
+				</rich:columnGroup>
+				
+			</rich:dataTable>
+			
+			<rich:dataTable style="border:1;" id="foot" rows="0"  align="center" width="100%">
+							  
+							  <f:facet name="header">
+		                <rich:columnGroup>
+		                    <rich:column breakRowBefore="true">
+		                        <h:outputText />
+		                    </rich:column>
+		                    <rich:column colspan="6" width="2000" >
+		                        <h:outputText  />
+		                    </rich:column>
+		                    <rich:column>
+		                        <h:outputText />
+		                    </rich:column>                        
+		                    <rich:column>
+		                        <h:outputText/>
+		                    </rich:column>  
+		                </rich:columnGroup>
+		                </f:facet>
+							  
+							  
+							  
+							  <f:facet name="footer">
+		 				<rich:columnGroup>
+		 					
+		 					<rich:column colspan="7"> 					</rich:column>
+		 					<rich:column colspan="1">
+		 						<h:outputText value="Monto Total:" />
+		 					</rich:column> 					
+		 					<rich:column  colspan="1">
+		 						<h:inputText readonly="true" size="12" id="montotot" value="#{pecosaMB.ordencompra.totaloc}" >
+		 							<f:convertNumber pattern="#########0.00" minFractionDigits="2"  maxFractionDigits="2"  type="currency" currencySymbol="S/." />
+		 						</h:inputText>
+		 					</rich:column> 		
+		 					<rich:column  colspan="1"> </rich:column> 			
+		 				</rich:columnGroup>
+		 			</f:facet>
+							  
+				</rich:dataTable>
+		</rich:panel>
+
+	
+    
+    </rich:panel>
+    
+    <h:panelGroup id="panelGridBotones"  >
+    	<h:panelGrid columns="1">
+		<a4j:commandButton
+						image="../../../images/salir.png"    
+                		title="Generar PECOSA" value="GUARDAR" 
+                		action="#{pecosaMB.registrarPecosa()}"               	
+              			id="guardarInformeaPecosa"
+              			status="generarPecosa"              			 
+		   				onclick="return confirm('¿Está seguro de generar la pecosa?')">									   
+		</a4j:commandButton>
+		<a4j:status name="generarPecosa">
+			<f:facet name="start">
+				<h:graphicImage value="/images/reloj-arena.gif" 
+								style=" width : 30px; height : 30px; margin-left:26px;" 
+								alt="ai"/>
+			</f:facet>
+		</a4j:status>
+		<h:outputLabel value="Generar Pecosa"/>
+		</h:panelGrid>
+	</h:panelGroup>		
+    
+    </h:form>
+</f:view>
+</h:body>
+</html>

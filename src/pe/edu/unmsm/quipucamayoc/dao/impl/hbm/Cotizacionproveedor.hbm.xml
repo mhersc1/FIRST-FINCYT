@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/06/2014 05:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Cotizacionproveedor" table="COTIZACIONPROVEEDOR">
+        <composite-id name="id" class="pe.edu.unmsm.quipucamayoc.model.CotizacionproveedorId">
+            <key-property name="cotprovid" type="string">
+                <column name="COTPROVID" length="10" />
+            </key-property>
+            <key-property name="tipoorden" type="char">
+                <column name="TIPOORDEN" length="1" />
+            </key-property>
+        </composite-id>
+        <property name="ruc" type="string">
+            <column name="RUC" length="11" not-null="true" />
+        </property>
+        <property name="detallecot" type="string">
+            <column name="DETALLECOT" length="250" />
+        </property>
+        <property name="prodir" type="string">
+            <column name="PRODIR" length="200" />
+        </property>
+        <property name="razonsocial" type="string">
+            <column name="RAZONSOCIAL" length="200" not-null="true" />
+        </property>
+        <property name="protel" type="string">
+            <column name="PROTEL" length="20" />
+        </property>
+        <property name="garantia" type="string">
+            <column name="GARANTIA" length="200" />
+        </property>
+        <property name="formapago" type="string">
+            <column name="FORMAPAGO" length="200" />
+        </property>
+        <property name="tiempoentrega" type="string">
+            <column name="TIEMPOENTREGA" length="200" />
+        </property>
+        <set name="ordencompras" table="ORDENCOMPRA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="COTPROVID" length="10" />
+                <column name="TIPOORDEN" length="1" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unmsm.quipucamayoc.model.Ordencompra" />
+        </set>
+        <set name="ordenservicios" table="ORDENSERVICIO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OSNRO" length="10" not-null="true" />
+                <column name="TIPOORDEN" length="1" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unmsm.quipucamayoc.model.Ordenservicio" />
+        </set>
+    </class>
+</hibernate-mapping>

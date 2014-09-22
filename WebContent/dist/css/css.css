@@ -1,0 +1,103 @@
+.upLeft{
+	float:left;
+	width: 590px;
+	
+}
+.upRight{
+	float:right;
+	width: 590px;
+	margin-left: 10px;
+}
+.down{
+	clear:both;
+}
+.contenido{
+	display:block;
+	margin:0 auto;
+	width:1200px;
+	height:100%;
+}
+body{
+	width:100%;
+	height:100%;
+	position:relative;
+	display:block;
+/*	background: url("../dist/images/fondotextura.jpg");*/
+	background-image:url("#{dist['fondotextura.jpg']}"); 
+}
+.ui-button-text{
+	font-size: 14px;
+	padding:.3em .1em .3em 2em !important;
+	line-height: 1.2 !important;
+	text-align: center;
+	color: #3c3c3c;
+	font-weight: 700;
+}
+
+.txtLarge{
+	width:450px;
+}
+.txtMediano{
+	width: 150px;
+}
+.txtShort{
+	width: 100px;
+	margin-right: 80px;
+}
+.lblShort{
+	width:80px;
+	font-size: 14px;
+}
+.upRight .down{
+	margin-left:30px;
+}
+.btnGenerar{
+	margin:5px auto 10px;
+	position:relative;
+	display:block;
+}
+.contBtnFinal{
+	width: 100%;
+	height: 40px;
+	position:relative;
+	display:block;
+}
+.login{
+	margin: 20px 30px 10px 50px;
+}
+.topBtn{
+	margin:50px 80px;
+}
+.cabezera{
+	height: 120px;
+	width:100%;
+}
+.cabezera img{
+	margin:35px 30px;
+	height:70px;
+}
+.separador{
+	height: 10px;
+}
+.subtitulo{
+	font-size: 16px;
+	font-weight: 800;
+}
+.titulo{
+	width:100%;
+	height:30px;
+	position:relative;
+	display:block;
+}
+.titulo h2{
+	display:block;
+	margin:0 auto;
+	width:380px;
+	text-align:center;
+	font-weight: 600px;
+	font-size: 22px;
+	
+}
+input[disabled]{
+	color:#666 !important;
+}

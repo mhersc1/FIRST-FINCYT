@@ -1,0 +1,217 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<script src="../../../dist/js/exporting.js"></script>
+	<title>Resumen de Pecosa</title>
+</h:head>
+<f:view>
+<h:form>
+    <rich:panel header=">> Resumen de Pecosa" style="font-size:13px;">
+    	<rich:panel id="panelOrdenDeCompra"	header=">>> Datos ">
+			<table>
+			<tr><td>
+			<h:panelGrid columns="2" style="font-size: 13px;">
+				<h:outputLabel for="nropecosa" value="Nº Pecosa: "/>
+				<h:inputText id="nropecosa" value="#{pecosaMB.pecosa.preimpresoinicial}" disabled="true"></h:inputText>
+			
+				<h:outputText value="Fecha de Registro:"></h:outputText>
+				<rich:calendar locale="es" id="fecha_ent"
+					value="#{pecosaMB.pecosa.fechapec}"
+					datePattern="dd/MM/yyyy"
+					disabled="true">					
+				</rich:calendar>
+				
+				<h:outputText value="Solicito entregar a:"></h:outputText>
+				<h:inputText id="entregarA"  
+							value="#{pecosaMB.pecosa.pecdes}">
+				<a4j:ajax event="keyup"></a4j:ajax>
+				</h:inputText>
+				
+				<h:outputText value="Con destino a:"></h:outputText>
+				<h:inputText id="dirDestino" 
+							value="#{pecosaMB.pecosa.pecdesdir}">
+				<a4j:ajax event="keyup"></a4j:ajax>
+				</h:inputText>
+								
+				<h:outputText value="Nº Hoja de Requerimiento:" styleClass="label"></h:outputText>
+				<h:inputText id="expediente"
+					value="#{pecosaMB.ordencompra.referencia}">				
+				</h:inputText>
+				
+				<h:outputText value="Nº OC:" styleClass="label"></h:outputText>
+				<h:panelGroup>
+					<h:panelGrid columns="3" style="font-size: 13px;">
+						<h:inputText readonly="true" size="13" id="preimpreso"
+							value="#{pecosaMB.ordencompra.id.ocnro}" />
+					</h:panelGrid>
+				</h:panelGroup>			
+				
+				<h:outputText for="lblFactura" value="Factura:" styleClass="label"></h:outputText>
+				<h:inputText id="lblFactura" 
+					value="#{pecosaMB.ordencompra.factura}" size="80" >
+				</h:inputText>
+					
+				<h:outputText for="lblguia"  value="Guia de Revisión:" styleClass="label"></h:outputText>
+				<h:inputText id="lblguia"  
+					value="#{pecosaMB.ordencompra.guiaDeRemision}" size="80" >
+				</h:inputText>
+				
+				
+				<h:outputText value="Observacion:" styleClass="label"></h:outputText>
+				<h:inputTextarea id="lblObsPecosa" rows="2" cols="100" value="#{pecosaMB.pecosa.pecobs}">
+				</h:inputTextarea>
+			</h:panelGrid>
+			</td>
+			
+			</tr>
+			</table>
+		</rich:panel> 
+		<rich:panel id="panelArticulos" header=">>> Artículos ">
+			<rich:dataTable value="#{pecosaMB.cargarDetalles()}"
+				id="dataaa" align="center" width="100%" rows="10" var="detalle"
+				rowKeyVar="row">
+				<f:facet name="header">
+					<rich:columnGroup>
+						<rich:column colspan="3">
+							<h:outputText value="Solicitado"></h:outputText>
+						</rich:column>
+						<rich:column colspan="5">
+							<h:outputText value="Despachado"></h:outputText>
+						</rich:column>
+						<rich:column colspan="2">
+							<h:outputText value="Valor"></h:outputText>
+						</rich:column>
+						<rich:column breakRowBefore="true" >
+							<h:outputText value="Especifica" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Cantidad" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Descripcion" />
+						</rich:column>
+						
+						<rich:column >
+							<h:outputText value="Detalles" />
+						</rich:column>
+						
+						<rich:column >
+							<h:outputText value="Marca" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Cantidad Despachada" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Unidad de Medida" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Precio Unitario" />
+						</rich:column>
+						<rich:column >
+							<h:outputText value="Sub Total" />
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+				<rich:columnGroup>
+					<rich:column >
+						<h:outputText value="#{detalle.especifica}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.cantidad}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.artdes}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.detalle}" />
+					</rich:column>
+					<rich:column >
+						<h:outputText value="#{detalle.marca}" />
+					</rich:column>
+					<rich:column >
+						<h:inputText readonly="true" value="#{detalle.cantidad}" />
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.unidmed}"></h:outputText>
+					</rich:column>
+					<rich:column >
+						<h:inputText readonly="true" value="#{detalle.preciounit}"></h:inputText>
+					</rich:column>
+					<rich:column>
+						<h:outputText value="#{detalle.subtotal}" />
+					</rich:column>
+				</rich:columnGroup>
+				
+			</rich:dataTable>
+			
+			<rich:dataTable style="border:1;" id="foot" rows="0"  align="center" width="100%">
+							  
+							  <f:facet name="header">
+		                <rich:columnGroup>
+		                    <rich:column breakRowBefore="true">
+		                        <h:outputText />
+		                    </rich:column>
+		                    <rich:column colspan="6" width="2000" >
+		                        <h:outputText  />
+		                    </rich:column>
+		                    <rich:column>
+		                        <h:outputText />
+		                    </rich:column>                        
+		                    <rich:column>
+		                        <h:outputText/>
+		                    </rich:column>  
+		                </rich:columnGroup>
+		                </f:facet>
+							  <f:facet name="footer">
+		 				<rich:columnGroup>
+		 					
+		 					<rich:column colspan="7"> 					</rich:column>
+		 					<rich:column colspan="1">
+		 						<h:outputText value="Monto Total:" />
+		 					</rich:column> 					
+		 					<rich:column  colspan="1">
+		 						<h:inputText readonly="true" size="12" id="montotot" value="#{pecosaMB.ordencompra.totaloc}" >
+		 							<f:convertNumber pattern="#########0.00" minFractionDigits="2"  maxFractionDigits="2"  type="currency" currencySymbol="S/." />
+		 						</h:inputText>
+		 					</rich:column> 		
+		 					<rich:column  colspan="1"> </rich:column> 			
+		 				</rich:columnGroup>
+		 			</f:facet>
+							  
+				</rich:dataTable>
+		</rich:panel>
+    </rich:panel>
+    <table>
+    <tr>
+    	<td>
+    		<a4j:commandButton status="editarPecosa"
+    						   id="editarPecosa"
+    						   value="Confirmar Pecosa"
+    						   title="Confirmar Pecosa"
+    						   action="#{pecosaMB.actualizarPecosa()}"
+    						   onclick="return confirm('¿Está seguro de confirmar los cambios?')"/>
+    	</td>
+    	<td>
+    		<a4j:status name="editarPecosa">
+    			<f:facet name="start">
+    				<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+    			</f:facet>
+    		</a4j:status>
+    	</td>
+    </tr>
+    
+	
+    </table>
+    </h:form>
+
+
+	</f:view>
+</html>

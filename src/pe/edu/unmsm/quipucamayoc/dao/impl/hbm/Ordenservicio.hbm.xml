@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/06/2014 05:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Ordenservicio" table="ORDENSERVICIO">
+        <composite-id name="id" class="pe.edu.unmsm.quipucamayoc.model.OrdenservicioId">
+            <key-property name="osnro" type="string">
+                <column name="OSNRO" length="15" />
+            </key-property>
+            <key-property name="proyectoid" type="java.lang.Integer">
+                <column name="PROYECTOID" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="cotizacionproveedor" class="pe.edu.unmsm.quipucamayoc.model.Cotizacionproveedor" fetch="select">
+            <column name="COTPROVID" length="10" />
+            <column name="TIPOORDEN" length="1" not-null="true" />
+        </many-to-one>
+        <property name="referencia" type="string">
+            <column name="REFERENCIA" length="300" />
+        </property>
+        <property name="solicitante" type="string">
+            <column name="SOLICITANTE" length="100" />
+        </property>
+        <property name="fechaos" type="date">
+            <column name="FECHAOS" length="7" />
+        </property>
+        <property name="fechaimp" type="date">
+            <column name="FECHAIMP" length="7" />
+        </property>
+        <property name="totalos" type="big_decimal">
+            <column name="TOTALOS" precision="22" scale="0" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="OBSERVACION" length="500" />
+        </property>
+        <property name="osestado" type="string">
+            <column name="OSESTADO" length="1" not-null="true" />
+        </property>
+        <property name="ospreimpresoini" type="string">
+            <column name="OSPREIMPRESOINI" length="15" />
+        </property>
+        <property name="totaligv" type="big_decimal">
+            <column name="TOTALIGV" precision="22" scale="0" />
+        </property>
+        <set name="detalleoses" table="DETALLEOS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OSNRO" length="15" not-null="true" />
+                <column name="PROYECTOID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unmsm.quipucamayoc.model.Detalleos" />
+        </set>
+    </class>
+</hibernate-mapping>

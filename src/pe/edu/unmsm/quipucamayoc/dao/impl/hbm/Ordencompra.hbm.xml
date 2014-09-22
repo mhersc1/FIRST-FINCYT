@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/06/2014 05:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pe.edu.unmsm.quipucamayoc.model.Ordencompra" table="ORDENCOMPRA">
+        <composite-id name="id" class="pe.edu.unmsm.quipucamayoc.model.OrdencompraId">
+            <key-property name="ocnro" type="string">
+                <column name="OCNRO" length="15" />
+            </key-property>
+            <key-property name="proyectoid" type="java.lang.Integer">
+                <column name="PROYECTOID" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="cotizacionproveedor" class="pe.edu.unmsm.quipucamayoc.model.Cotizacionproveedor" fetch="select">
+            <column name="COTPROVID" length="10" />
+            <column name="TIPOORDEN" length="1" not-null="true" />
+        </many-to-one>
+        <property name="referencia" type="string">
+            <column name="REFERENCIA" length="300" />
+        </property>
+        <property name="solicitante" type="string">
+            <column name="SOLICITANTE" length="100" />
+        </property>
+        <property name="fechaoc" type="date">
+            <column name="FECHAOC" length="7" />
+        </property>
+        <property name="fechaimp" type="date">
+            <column name="FECHAIMP" length="7" />
+        </property>
+        <property name="totaloc" type="big_decimal">
+            <column name="TOTALOC" precision="22" scale="0" />
+        </property>
+        <property name="almdir" type="string">
+            <column name="ALMDIR" length="300" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="OBSERVACION" length="500" />
+        </property>
+        <property name="ocestado" type="string">
+            <column name="OCESTADO" length="1" not-null="true" />
+        </property>
+        <property name="ocpreimpresoini" type="string">
+            <column name="OCPREIMPRESOINI" length="15" />
+        </property>
+        <property name="totaligv" type="big_decimal">
+            <column name="TOTALIGV" precision="22" scale="0" />
+        </property>
+        <property name="factura" type="string">
+            <column name="FACTURA" length="200" />
+        </property>
+        <property name="guiaDeRemision" type="string">
+            <column name="GUIA_DE_REMISION" length="600" />
+        </property>        
+        <set name="pecosas" table="PECOSA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OCNRO" length="15"  not-null="true"/>
+                <column name="PROYECTOID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unmsm.quipucamayoc.model.Pecosa" />
+        </set>
+        <set name="detalleocs" table="DETALLEOC" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OCNRO" length="15" not-null="true" />
+                <column name="PROYECTOID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unmsm.quipucamayoc.model.Detalleoc" />
+        </set>
+    </class>
+</hibernate-mapping>

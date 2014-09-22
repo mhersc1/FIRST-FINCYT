@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"   
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"   
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="./dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="./dist/css/normalize.css"></link>
+</h:head>
+<h:body>
+	<h:form>
+	<div class="topBtn" style="float:right;">
+				<h:commandButton id="cerrarSesion" value="Cerrar Sesión" action="#{usuarioFinzytMB.logout()}"/>
+				<h:outputLabel value="Soy el usuario:"></h:outputLabel>
+				<h:outputLabel value="#{usuarioFinzytMB.user}"></h:outputLabel>
+	</div>
+	</h:form>
+</h:body>
+</ui:composition>

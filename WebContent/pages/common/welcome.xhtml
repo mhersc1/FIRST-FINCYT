@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a4j="http://richfaces.org/a4j"      
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Reporte de Orden de Compra</title>
+</h:head>
+<h:body>
+<f:subview>
+<h:form>
+	<rich:toolbar>
+		     <rich:dropDownMenu rendered="#{usuarioFinzytMB.menuOperaciones}" mode="ajax" >            
+                <f:facet name="label"  > 
+                    <h:panelGroup  >
+                        <h:outputText value="Operaciones"/>
+                    </h:panelGroup>
+                </f:facet>
+                            	
+            	<rich:menuItem label="Generar Orden de Compra" action="#{ordencompraMB.loadCommon()}"/>
+	                              
+	            <rich:menuSeparator id="separadorOperaciones" />
+	            
+	            <rich:menuItem label="Generar Orden de Servicio" action="#{ordenservicioMB.loadCommon()}" value="Generar Orden de Servicio"/>            
+	            
+            	               
+            </rich:dropDownMenu>
+			<rich:dropDownMenu rendered="#{usuarioFinzytMB.menuConsultas}">
+				<f:facet name="label"  > 
+                    <h:panelGroup  >
+                        <h:outputText value="Consultas"/>
+                    </h:panelGroup>
+                </f:facet>
+                            	
+            	<rich:menuItem label="Consultar Ordenes de Compra"  action="#{ordencompraMB.cargarOrdenesCompra()}" value="Reporte de Orden de Compra" />
+	                              
+	            <rich:menuSeparator id="separadorConsultas1" />
+	            
+	            <rich:menuItem label="Consultar Ordenes de Servicio" action="#{ordenservicioMB.cargarOrdenesServicio()}" value="Reporte de Orden de Servicio"/>
+				
+				<rich:menuSeparator id="separadorConsultas2" />
+				
+				<rich:menuItem label="Consultar Pecosas" action="#{pecosaMB.cargarPecosas()}" value="Reporte de Pecosas"/>
+			</rich:dropDownMenu>
+			<rich:dropDownMenu rendered="false" mode="ajax">
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:outputText value="pruebas"></h:outputText>
+					</h:panelGroup>
+				</f:facet>
+				
+				<rich:menuItem label="Prueba Status Ajax" action="#{pecosaMB.dirigir()}" value="Prueba Status Ajax"/>
+			</rich:dropDownMenu>			
+	</rich:toolbar>
+</h:form>
+</f:subview>
+</h:body>
+</ui:composition>

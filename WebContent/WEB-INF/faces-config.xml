@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+              http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">  
+<application> 
+		<el-resolver>
+    		    org.springframework.web.jsf.el.SpringBeanFacesELResolver
+    	</el-resolver>
+    	<resource-bundle>
+    	<base-name>utilitarios</base-name>
+    	<var>util</var>
+    	</resource-bundle>
+ </application> 
+ <!-- NAVIGATION RULES FINCYT -->
+ <navigation-rule>
+ 	<display-name>pages/common/login.xhtml</display-name>
+ 	<from-view-id>/pages/common/login.xhtml</from-view-id>
+ 	<navigation-case>
+ 		<from-action>#{usuarioFinzytMB.login()}</from-action>
+ 		<from-outcome>welcome</from-outcome>
+ 		<to-view-id>/pages/common/welcome.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case>
+ 	 	<navigation-case>
+ 		<from-action>#{usuarioFinzytMB.login()}</from-action>
+ 		<from-outcome>login</from-outcome>
+ 		<to-view-id>/pages/common/login.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case>
+ 	 	<navigation-case>
+ 		<from-action>#{usuarioFinzytMB.login()}</from-action>
+ 		<from-outcome>logout</from-outcome>
+ 		<to-view-id>/pages/common/logout.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case>
+ </navigation-rule>
+ <!-- Operaciones -->
+ <navigation-rule>
+ 	<navigation-case>
+ 		<from-action>#{ordencompraMB.loadCommon()}</from-action>
+ 		<from-outcome>generarOC</from-outcome>
+ 		<to-view-id>/pages/usu/operaciones/generarOC.xhtml</to-view-id>
+ 		<redirect></redirect>	
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-action>#{ordenservicioMB.loadCommon()}</from-action>
+ 		<from-outcome>generarOS</from-outcome>
+ 		<to-view-id>/pages/usu/operaciones/generarOS.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case>
+ <!-- Listados --> 	
+ 	<navigation-case>
+ 		<from-action>#{ordencompraMB.cargarOrdenesCompra()}</from-action>
+ 		<from-outcome>listadoOC</from-outcome>
+ 		<to-view-id>/pages/usu/listado/listaOCAlt.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-action>#{ordenservicioMB.cargarOrdenesServicio()}</from-action>
+ 		<from-outcome>listadoOS</from-outcome>
+ 		<to-view-id>/pages/usu/listado/listaOSAlt.xhtml</to-view-id>
+ 		<redirect></redirect> 		 		
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-action>#{pecosaMB.cargarPecosas()}</from-action>
+ 		<from-outcome>listadoPECOSA</from-outcome>
+ 		<to-view-id>/pages/usu/listado/listaPECOSAlt.xhtml</to-view-id>
+ 		<redirect></redirect>
+ 	</navigation-case> 	 	
+ </navigation-rule>
+  <!-- Consultas -->
+  <navigation-rule>
+  	<display-name>pages/usu/listado/listaOCAlt.xhtml</display-name>
+  	<from-view-id>/pages/usu/listado/listaOCAlt.xhtml</from-view-id>
+  	<navigation-case>  		
+  		<from-outcome>consultaOrdenDeCompra</from-outcome>
+  		<to-view-id>/pages/usu/consulta/consultaOrdenDeCompra.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  	<display-name>pages/usu/listado/listaOSAlt.xhtml</display-name>  	
+  	<from-view-id>/pages/usu/listado/listaOSAlt.xhtml</from-view-id>
+  	<navigation-case>  		
+  		<from-outcome>consultaOrdenDeServicio</from-outcome>
+  		<to-view-id>/pages/usu/consulta/consultaOrdenDeServicio.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  	<display-name>pages/usu/listado/listaPECOSAlt.xhtml</display-name>
+  	<from-view-id>/pages/usu/listado/listaPECOSAlt.xhtml</from-view-id>
+  	<navigation-case>  		
+  		<from-outcome>consultaPecosa</from-outcome>
+  		<to-view-id>/pages/usu/consulta/consultaPecosa.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case> 	
+  </navigation-rule>  
+  
+  <navigation-rule>
+  	<display-name>pages/usu/listado/listaOCAlt.xhtml</display-name>
+  	<from-view-id>/pages/usu/listado/listaOCAlt.xhtml</from-view-id>
+  	<navigation-case>  		
+  		<from-outcome>generarPecosa</from-outcome>
+  		<to-view-id>/pages/usu/operaciones/generarPecosa.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case> 	
+  </navigation-rule>
+  
+  <!-- Editar Orden Compra -->
+  <navigation-rule>
+  	<display-name>pages/usu/listado/listaOCAlt.xhtml</display-name>
+  	<from-view-id>/pages/usu/listado/listaOCAlt.xhtml</from-view-id>
+  	<navigation-case>  		
+  		<from-outcome>editarOrdenCompra</from-outcome>
+  		<to-view-id>/pages/usu/operaciones/editarOC.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <!-- Editar Orden Servicio -->
+  <navigation-rule>
+  <display-name>pages/usu/listado/listaOSAlt.xhtml</display-name>
+  <from-view-id>/pages/usu/listado/listaOSAlt.xhtml</from-view-id>
+  <navigation-case>
+  	<from-outcome>editarOrdenServicio</from-outcome>
+  	<to-view-id>/pages/usu/operaciones/editarOS.xhtml</to-view-id>
+  	<redirect></redirect>
+  </navigation-case>
+  </navigation-rule>
+  
+  <!-- Validaciones -->
+  <navigation-rule>
+  	<display-name>pages/usu/consulta/consultaOrdenDeCompra.xhtml</display-name>
+  	<from-view-id>/pages/usu/consulta/consultaOrdenDeCompra.xhtml</from-view-id>
+  	<navigation-case>
+  		<from-action>#{ordencompraMB.validarOrdenCompra()}</from-action>
+  		<from-outcome>listadoOC</from-outcome>
+  		<to-view-id>/pages/usu/listado/listaOCAlt.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-action>#{ordencompraMB.validarOrdenCompra()}</from-action>
+  		<from-outcome>consultaOrdenDeCompra</from-outcome>
+  		<to-view-id>/pages/usu/consulta/consultaOrdenDeCompra.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  	<display-name>pages/usu/consulta/consultaOrdenDeServicio.xhtml</display-name>
+  	<from-view-id>/pages/usu/consulta/consultaOrdenDeServicio.xhtml</from-view-id>
+  	<navigation-case>
+  		<from-action>#{ordenservicioMB.validarOrdenServicio()}</from-action>
+  		<from-outcome>listadoOS</from-outcome>
+  		<to-view-id>/pages/usu/listado/listaOSAlt.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  	  <navigation-case>
+  		<from-action>#{ordenservicioMB.validarOrdenServicio()}</from-action>
+  		<from-outcome>consultaOrdenDeServicio</from-outcome>
+  		<to-view-id>/pages/usu/consulta/consultaOrdenDeServicio.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+  
+  <navigation-rule>
+  	<display-name>pages/usu/consulta/consultaPecosa.xhtml</display-name>
+  	<from-view-id>/pages/usu/consulta/consultaPecosa.xhtml</from-view-id>
+  	<navigation-case>
+  		<from-action>#{pecosaMB.validarPecosa()}</from-action>
+  		<from-outcome>listadoPECOSA</from-outcome>
+  		<to-view-id>/pages/usu/listado/listaPECOSAlt.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-action>#{pecosaMB.validarPecosa()}</from-action>
+  		<from-outcome>consultaPecosa</from-outcome>
+  		<to-view-id>/pages/usu/listado/consultaPecosa.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>  	
+  </navigation-rule>
+  
+  <!-- Generar Pecosa -->
+  <navigation-rule>
+  	<display-name>pages/usu/operaciones/generarPecosa.xhtml</display-name>
+  	<from-view-id>/pages/usu/operaciones/generarPecosa.xhtml</from-view-id>
+  	<navigation-case>
+  		<from-action>#{pecosaMB.registrarPecosa()}</from-action>
+  		<from-outcome>generarPecosa</from-outcome>
+  		<to-view-id>/pages/usu/operaciones/generarPecosa.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  	<navigation-case>
+  		<from-action>#{pecosaMB.registrarPecosa()}</from-action>
+  		<from-outcome>listadoOC</from-outcome>
+  		<to-view-id>/pages/usu/listado/listaOCAlt.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>  	
+  </navigation-rule>
+  
+  <!-- Editar Operaciones -->
+  <!-- Orden Compra -->
+  <navigation-rule>
+  <display-name>pages/usu/operaciones/editarOC.xhtml</display-name>
+  <from-view-id>/pages/usu/operaciones/editarOC.xhtml</from-view-id>
+  <navigation-case>
+  	<from-action>#{ordencompraMB.actualizarOrdenCompra()}</from-action>
+  	<from-outcome>actualizarOC</from-outcome>
+  	<to-view-id>/pages/usu/operaciones/editarOC.xhtml</to-view-id>
+  	<redirect></redirect>
+  </navigation-case>
+  <navigation-case>
+  	<from-action>#{ordencompraMB.actualizarOrdenCompra()}</from-action>
+  	<from-outcome>listadoOC</from-outcome>
+  	<to-view-id>/pages/usu/listado/listaOCAlt.xhtml</to-view-id>
+  	<redirect></redirect>
+  </navigation-case>
+  </navigation-rule>
+  <!-- Orden Servicio -->
+  <navigation-rule>
+  	<display-name>pages/usu/operaciones/editarOS.xhtml</display-name>
+  	<from-view-id>/pages/usu/operaciones/editarOS.xhtml</from-view-id>
+  <navigation-case>
+  		<from-action>#{ordenservicioMB.actualizarOrdenServicio()}</from-action>
+  		<from-outcome>actualizarOS</from-outcome>
+  		<to-view-id>/pages/usu/operaciones/editarOS.xhtml</to-view-id>
+  		<redirect></redirect>
+  </navigation-case>
+  <navigation-case>
+  		<from-action>#{ordenservicioMB.actualizarOrdenServicio()}</from-action>
+  		<from-outcome>listadoOS</from-outcome>
+  		<to-view-id>/pages/usu/listado/listaOSAlt.xhtml</to-view-id>
+  		<redirect></redirect>
+  </navigation-case>
+  </navigation-rule>
+  <!-- Pecosa -->
+  <navigation-rule>
+  <display-name>pages/usu/operaciones/editarPecosa.xhtml</display-name>
+  <from-view-id>/pages/usu/operaciones/editarPecosa.xhtml</from-view-id>
+  <navigation-case>
+  	<from-action>#{pecosaMB.actualizarPecosa()}</from-action>
+  	<from-outcome>actualizarPecosa</from-outcome>
+  	<to-view-id>/pages/usu/operaciones/editarPecosa.xhtml</to-view-id>
+  </navigation-case>  
+  <navigation-case>
+  	<from-action>#{pecosaMB.actualizarPecosa()}</from-action>
+  	<from-outcome>listadoPecosa</from-outcome>
+  	<to-view-id>/pages/usu/listado/listaPECOSAlt.xhtml</to-view-id>
+  	<redirect></redirect>
+  </navigation-case>
+  </navigation-rule>
+  
+  
+  <!-- Editar Pecosa -->
+  <navigation-rule>
+  <display-name>pages/usu/listado/listaPECOSAlt.xhtml</display-name>
+  <from-view-id>/pages/usu/listado/listaPECOSAlt.xhtml</from-view-id>
+  <navigation-case>  	
+  	<from-outcome>editarPecosa</from-outcome>
+  	<to-view-id>/pages/usu/operaciones/editarPecosa.xhtml</to-view-id>
+  	<redirect></redirect>
+  </navigation-case>  
+  </navigation-rule>
+    
+  
+  <!-- Loggedout-->
+  <navigation-rule>
+  	<navigation-case>
+  		<from-action>#{usuarioFinzytMB.logout()}</from-action>
+  		<from-outcome>loggedout</from-outcome>
+  		<to-view-id>/pages/common/login.xhtml</to-view-id>
+  		<redirect></redirect>
+  	</navigation-case>
+  </navigation-rule>
+</faces-config>

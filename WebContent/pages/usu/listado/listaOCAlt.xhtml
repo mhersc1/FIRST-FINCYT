@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<title>Listado de Ordenes de Compra</title>
+</h:head>
+<ui:include src="/pages/common/welcome.xhtml"/>
+<f:view>
+<h:body>
+	<h:form>
+	<div class="cabezera">
+		<img src="../../../dist/images/logo_quipu.png" />
+		<div class="topBtn" style="float: right;">
+			<h:commandButton id="cerrarSesion" action="#{usuarioFinzytMB.logout()}" value="Cerrar Sesión"
+				type="submit" />
+		</div>
+
+	</div>
+	</h:form>
+	<h3 align="center">Reporte de Ordenes de Compra</h3>
+	<h:form>
+		<rich:extendedDataTable id="listadoOC" 
+			value="#{ordencompraMB.ordenes}" var="oc" frozenColumns="2"
+			rendered="true" rows="#{ordencompraMB.habSel.getCantOCsConsult()}"
+			>
+			<f:facet name="noData">
+                			No hay Ordenes de Compra por Atender, puede seguir con su trabajo.
+            			</f:facet>
+			<rich:column filterValue="#{ordenFiltroMB.numeroFilter}"
+				filterExpression="#{fn:containsIgnoreCase(oc.id.ocnro,ordenFiltroMB.numeroFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Nº:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.numeroFilter}" style="width:100px">
+							<a4j:ajax event="blur" render="listadoOC" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="numero" value="#{oc.id.ocnro}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.rsocialFilter}"
+				filterExpression="#{fn:containsIgnoreCase(oc.cotizacionproveedor.razonsocial,ordenFiltroMB.rsocialFilter)}"
+				filterType="custom"
+				width="300" style="text-align:center">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Razon Social:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.rsocialFilter}" style="width:280px">
+							<a4j:ajax event="blur" render="listadoOC" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="razonsocial"
+					value="#{oc.cotizacionproveedor.razonsocial}" />
+			</rich:column>
+
+			<rich:column filterValue="#{ordenFiltroMB.rucFilter}"
+				filterExpression="#{fn:containsIgnoreCase(oc.cotizacionproveedor.ruc,
+			            								ordenFiltroMB.rucFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="RUC:" /><br/>
+						<h:inputText value="#{ordenFiltroMB.rucFilter}" style="width:100px">
+							<a4j:ajax event="blur" render="listadoOC" execute="@this"></a4j:ajax>
+						</h:inputText>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="ruc" value="#{oc.cotizacionproveedor.ruc}" />
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.fechaFilter}"
+				filterExpression="#{fn:containsIgnoreCase(oc.fechaoc,
+			            								ordenFiltroMB.fechaFilter)}"
+				filterType="custom" style="text-align:center" width="120">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Fecha OC:"/><br/>
+						<rich:calendar style="width:100px">
+							<a4j:ajax event="change" render="listadoOC" execute="@this"></a4j:ajax>
+						</rich:calendar>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="fechaOC" value="#{oc.fechaoc}"></h:outputText>
+			</rich:column>
+			<rich:column filterValue="#{ordenFiltroMB.estadoFilter}"
+				filterExpression="#{fn:containsIgnoreCase(oc.ocestado,
+			            								ordenFiltroMB.estadoFilter)}"
+				filterType="custom" style="text-align:center">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Estado:"/><br/>
+						<h:selectOneMenu value="#{ordenFiltroMB.estadoFilter}">
+							<f:selectItem itemValue="1" itemLabel="OC GENERADA"/>
+							<f:selectItem itemValue="2" itemLabel="OC VALIDADA"/>
+							<f:selectItem itemValue="3" itemLabel="PECOSA GENERADA"/>
+							<f:selectItem itemValue="4" itemLabel="PECOSA VALIDADA"/>
+							<a4j:ajax event="change" render="listadoOC" execute="@this"></a4j:ajax>
+						</h:selectOneMenu>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText id="estado1" style="color:blue; font-weight:bold"  value="OC GENERADA" rendered="#{oc.ocestado == 1}"></h:outputText>
+				<h:outputText id="estado2" style="color:green; font-weight:bold" value="OC VALIDADA " rendered="#{oc.ocestado == 2}"></h:outputText>
+				<h:outputText id="estado3" style="color:blue; font-weight:bold"  value="PECOSA GENERADA " rendered="#{oc.ocestado == 3}"></h:outputText>
+				<h:outputText id="estado4" style="color:green; font-weight:bold"  value="PECOSA VALIDADA" rendered="#{oc.ocestado == 4}"></h:outputText>
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Monto Total"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{oc.totaloc}" />
+			</rich:column>
+			<rich:column style="text-align:center">
+				<f:facet name="header">
+					<h:outputText value="Total IGV"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{oc.totaligv}" />
+			</rich:column>
+ 			<rich:column style="text-align:center">
+ 				<f:facet name="header">
+ 					<h:outputText value="Ver OC"/>
+ 				</f:facet>   
+      		  	<h:commandButton 
+      		    	id="mostrarOC"
+      		    	image="../../../images/btnBusca.gif" 
+  					value="Mostrar Orden Compra"  					
+  					style="width:20px;height : 20px;"  								
+					action="#{ordencompraMB.cargarOC(oc.id.ocnro,util.ver)}"
+					title="Ver detalle OC">
+				</h:commandButton>							 				
+            </rich:column>
+			<rich:column style="text-align:center"> 
+			<f:facet name="header">
+				<h:outputText value="Generar Pecosa"/>
+			</f:facet>  
+			<h:commandButton id="generarPecosa"					
+					value="Realizar Pecosa"
+					image="../../../images/icon-generar.png"					
+					style="width:20px;height : 20px;"
+					rendered="#{usuarioFinzytMB.rol=='CAP' and oc.ocestado == 2}"    	  					  											
+					action="#{pecosaMB.cargarOCparaAlm(oc.id.ocnro)}">				
+			</h:commandButton> 
+			<h:graphicImage 
+						  	value="/images/icon-generar_disabled.png"
+						  	style="width:20px;height : 20px;"
+						  	rendered="#{usuarioFinzytMB.rol=='CAP' and (oc.ocestado == 1 or 
+						  				oc.ocestado == 3 or oc.ocestado == 4)}"
+						  	title="Realizar pecosa deshabilitada.">			
+			</h:graphicImage>																			
+            </rich:column>
+            <rich:column style="text-align:center">
+            <f:facet name="header">
+            	<h:outputText value="Editar OC"  />
+            </f:facet>
+            	<h:commandButton id="editarOC"
+            					 value="Editar Orden Compra"
+            					 title="Editar Orden Compra"
+            					 image="/images/btnEditar.gif"
+            					 style="width:20px;height : 20px;"
+            					 rendered="#{usuarioFinzytMB.rol=='CAP' and oc.ocestado==1}"
+            					 action="#{ordencompraMB.cargarOC(oc.id.ocnro,util.editar)}">            	
+            	</h:commandButton>
+				<h:graphicImage 
+						  		value="/images/btnEditar_disabled.png"
+						  		style="width:20px;height : 20px;"
+						  		rendered="#{usuarioFinzytMB.rol=='CAP' and oc.ocestado != 1}"/>	            	
+            </rich:column>	
+		</rich:extendedDataTable>
+	</h:form>
+</h:body>
+</f:view>
+</html>

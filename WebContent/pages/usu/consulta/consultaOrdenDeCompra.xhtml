@@ -1,0 +1,248 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/css.css"></link>
+	<link rel="stylesheet" type="text/css" href="../../../dist/css/normalize.css"></link>
+	<script src="../../../dist/js/exporting.js"></script>
+	<title>Resumen de Orden de Compra</title>
+</h:head>
+	<f:view>
+
+		<h:form id="notaForm">
+
+			<rich:panel header=">> Resumen de Orden de Compra">
+
+
+				<table id="notaTable" style="font-size: 13px">
+					<tr>
+						<td colspan="3"><rich:panel id="panelOrdenDeCompra"
+								header=">>> Orden de Compra ">
+
+								<h:panelGrid columns="2" style="font-size: 13px;">
+
+									<h:outputText value="Nº OC " styleClass="label"></h:outputText>
+									<h:panelGroup>
+										<h:panelGrid columns="3" style="font-size: 13px;">
+											<h:inputText readonly="true" size="13" id="preimpreso"
+												value="#{ordencompraMB.ordenDecompra.id.ocnro}" />
+										</h:panelGrid>
+									</h:panelGroup>
+
+									<h:outputText value="Estado de la OC:" styleClass="label"></h:outputText>
+									<h:panelGroup>
+										<h:inputText readonly="true" id="ocenviada" value="OC GENERADA"
+											size="13" style="color:green; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 1}" />
+
+										<h:inputText readonly="true" id="ocvalidada" value="OC VALIDADA"
+											size="13" style="color:blue; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 2}" />
+											
+										<h:inputText readonly="true" id="ocConPecosa" value="PECOSA GENERADA"
+											size="13" style="color:green; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 3}" />
+										
+										<h:inputText readonly="true" id="ocValPecosa" value="PECOSA VALIDADA"
+											size="13" style="color:blue; font-weight:bold"
+											rendered="#{ordencompraMB.ordenDecompra.ocestado == 4}" />
+
+									</h:panelGroup>
+
+
+									<h:outputText value="Observacion" styleClass="label"></h:outputText>
+									<h:inputText readonly="true" id="ocdes"
+										value="#{ordencompraMB.ordenDecompra.observacion}" size="80" />
+
+
+									<h:outputText value="Fecha Orden Compra:" styleClass="label"></h:outputText>
+									<h:inputText readonly="true" id="ocfec"
+										value="#{ordencompraMB.ordenDecompra.fechaoc}" size="15">
+										<f:convertDateTime type="date" dateStyle="medium"
+											pattern="yyyy-MM-dd" />
+									</h:inputText>
+									<h:outputText value="Nº Hoja de Requerimiento:" styleClass="label"></h:outputText>
+									<h:inputText readonly="true" id="proveido_de_oc"
+										value="#{ordencompraMB.ordenDecompra.referencia}" />
+
+								</h:panelGrid>
+
+							</rich:panel> 
+							<rich:panel id="panelArticulos" header=">>> Artículos ">
+								<rich:dataTable value="#{ordencompraMB.detalles}"
+									id="dataaa" align="center" width="100%" rows="10" var="detalle"
+									rowKeyVar="row">
+									<f:facet name="header">
+										<rich:columnGroup>
+											<rich:column >
+												<h:outputText value="Especifica" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Codigo" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Descripcion" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Marca" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Detalle" />
+											</rich:column>
+											<rich:column>
+												<h:outputText value="Cantidad"></h:outputText>
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Precio Unit." />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="IGV" />
+											</rich:column>
+											<rich:column >
+												<h:outputText value="Sub Total" />
+											</rich:column>
+										</rich:columnGroup>
+									</f:facet>
+									<rich:columnGroup>
+										<rich:column >
+											<h:outputText value="#{detalle.especifica}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.artcod}" />
+										</rich:column>
+										<rich:column>
+											<h:outputText value="#{detalle.artdes}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.marca}" />
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.detalle}" />
+										</rich:column>
+										<rich:column>
+											<h:outputText value="#{detalle.cantidad}"></h:outputText>
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.preciounit}"></h:outputText>
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.igv}"></h:outputText>
+										</rich:column>
+										<rich:column >
+											<h:outputText value="#{detalle.subtotal}" />
+										</rich:column>
+									</rich:columnGroup>
+								</rich:dataTable>
+							</rich:panel> <br /></td>
+					</tr>
+					<tr>
+						<td colspan="1">
+						<h:panelGrid columns="2">
+						<h:column>						
+						<h:commandButton								
+								title="ReporteOC"
+								value="Imprimir OC"								
+								action="#{asistenciaMB.asistenciaPDF()}"															
+								image="../../../images/btn_pdf.gif"								
+								style="width : 30px; height : 30px; margin-left:9px;"								
+								rendered="#{(usuarioFinzytMB.rol=='CGI') or (usuarioFinzytMB.rol=='CAP'and ordencompraMB.ordenDecompra.ocestado == 2)}"
+								execute="@form">															
+						</h:commandButton>						
+						<h:commandButton title="ReporteOC"
+								value="Imprimir OC"																
+								image="../../../images/btn_pdf_disabled.gif"								
+								style="width : 30px; height : 30px; margin-left:9px;" 
+								disabled="true"
+								rendered="#{(usuarioFinzytMB.rol=='CAP' and ordencompraMB.ordenDecompra.ocestado == 1)}">								
+						</h:commandButton>
+						<h:outputLabel  value="Imprimir"
+										rendered="#{(usuarioFinzytMB.rol=='CGI') or (usuarioFinzytMB.rol=='CAP'and ordencompraMB.ordenDecompra.ocestado == 2)}"/>
+						</h:column>
+						<h:column>
+						<a4j:status>
+							<f:facet name="start">
+								<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+							</f:facet>
+						</a4j:status>
+						</h:column>
+						</h:panelGrid>					
+						</td>
+						
+						<td colspan="1">
+						<h:panelGrid columns="2">
+						<h:column>
+						<a4j:commandButton 
+								status="validarOC"
+								title="ValidarOC"
+								value="Validar OC"
+								action="#{ordencompraMB.validarOrdenCompra()}"
+								image="../../../images/validacion.gif"
+								style="width : 30px; height : 30px; margin-left:55px;"
+								rendered="#{usuarioFinzytMB.rol=='CGI' and ordencompraMB.ordenDecompra.ocestado == 1}"
+								onclick="return confirm('¿Está seguro de validar esta orden de compra?')">								
+						</a4j:commandButton>					
+						<h:commandButton	
+								title="ValidarOC"
+								value="Validar OC"
+								image="../../../images/validaciondisabled.gif"
+								style="width : 30px; height : 30px; margin-left:55px;"
+								rendered="#{usuarioFinzytMB.rol=='CGI' and ordencompraMB.ordenDecompra.ocestado == 2}"
+								disabled="true">
+						</h:commandButton>
+						<h:outputLabel value="Validar Orden de Compra" rendered="#{usuarioFinzytMB.rol=='CGI' and ordencompraMB.ordenDecompra.ocestado == 1}" ></h:outputLabel>	
+						</h:column>
+						<h:column>
+							<a4j:status name="validarOC">
+								<f:facet name="start">
+								<h:graphicImage value="/images/reloj-arena.gif" 
+								style=" width : 30px; height : 30px; margin-left:26px;" 
+								alt="ai"/>
+								</f:facet>
+							</a4j:status>
+						</h:column>
+						</h:panelGrid>
+						</td>
+						
+						<td colspan="1">
+						<h:panelGrid columns="2">
+						<h:column>
+							<a4j:commandButton 	status="statusEditarOC"
+												id="editarOC"
+												title="Editar OC"
+												value="Editar OC"
+												image="/images/btnEditar.gif"
+												action="#{ordencompraMB.editarOrdenCompra()}"
+												style="width : 30px; height : 30px; margin-left:55px;"
+												rendered=""
+												onclick="return confirm('¿Está seguro de editar esta orden de compra?')"
+												/>
+							<h:outputLabel value="Editar Orden Compra" rendered=""/>
+							
+						</h:column>
+						<h:column>
+						<a4j:status name="statusEditarOC">
+						<f:facet name="start">
+							<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai" />
+						</f:facet>
+						</a4j:status>
+						</h:column>
+						</h:panelGrid>
+						</td>
+					</tr>
+				</table>
+
+			</rich:panel>
+
+		</h:form>
+						<a4j:status>
+							<f:facet name="start">
+								<h:graphicImage value="/images/reloj-arena.gif" style="width:30px; height:30px;" alt="ai"/>
+							</f:facet>
+						</a4j:status>		
+	</f:view>
+</html>
