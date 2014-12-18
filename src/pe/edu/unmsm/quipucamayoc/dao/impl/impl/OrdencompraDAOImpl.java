@@ -100,11 +100,12 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		/**
 		 * @Format ocnro: 		2014000001
 		 */
+		System.out.println("Entre !!!");
 		Session session=this.getSessionFactory().openSession();
 		Long resultado;
 		String numCont="000001";
 		try {
-			String query="select max(cast(id.ocnro as long))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";
+			String query="select max(cast(id.ocnro as unsigned))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";
 			resultado=(Long) session.createQuery(query).uniqueResult();
 			
 			if(resultado!=null ){
@@ -129,7 +130,7 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		Long resultados;
 		String numCont="000001";
 		try {
-			String query="select max(cast(substr(ocpreimpresoini,10) as long))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";			
+			String query="select max(cast(substr(ocpreimpresoini,10) as unsigned))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";			
 			resultados=(Long) session.createQuery(query).uniqueResult();
 			if(resultados!=null)
 			numCont=resultados.toString();			

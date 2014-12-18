@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 07/06/2014 03:45:45 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="pe.edu.unmsm.quipucamayoc.model.Articulo" table="ARTICULO" schema="QPLOGISTICA">
+    <class name="pe.edu.unmsm.quipucamayoc.model.Articulo" table="ARTICULO">
         <id name="artcod" type="java.lang.String">
             <column name="ARTCOD" />
             <generator class="assigned" />
