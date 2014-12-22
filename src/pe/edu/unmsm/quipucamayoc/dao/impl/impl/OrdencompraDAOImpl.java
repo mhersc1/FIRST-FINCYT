@@ -2,7 +2,6 @@ package pe.edu.unmsm.quipucamayoc.dao.impl.impl;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.edu.unmsm.quipucamayoc.dao.inf.OrdencompraDAO;
 import pe.edu.unmsm.quipucamayoc.model.Ordencompra;
 import pe.edu.unmsm.quipucamayoc.model.OrdencompraId;
-import pe.edu.unmsm.quipucamayoc.model.Pecosa;
-
-import org.springframework.orm.hibernate4.*;
 /**
  * Home object for domain model class Ordencompra.
  * @see .Ordencompra
@@ -26,7 +22,7 @@ import org.springframework.orm.hibernate4.*;
 public class OrdencompraDAOImpl implements OrdencompraDAO {
 	
 	@Autowired
-	private  SessionFactory sessionFactory;
+	private  SessionFactory sessionFactory;	
 
 
 	@Override
@@ -100,19 +96,25 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		/**
 		 * @Format ocnro: 		2014000001
 		 */
+		System.out.println("Entre !!!");
+		//Session session=this.getSessionFactory().openSession();
 		Session session=this.getSessionFactory().openSession();
-		Long resultado;
+		Integer resultado;
+		
 		String numCont="000001";
 		try {
-			String query="select max(cast(id.ocnro as long))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";
-			resultado=(Long) session.createQuery(query).uniqueResult();
 			
-			if(resultado!=null ){
-				numCont=resultado.toString().substring(4);
-			}
+			String query="select max(cast(id.ocnro as int))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";
+			resultado=(Integer)session.createQuery(query).uniqueResult();
+			
+				if (resultado != null) 
+					numCont = resultado.toString().substring(4);
+				
 			return numCont;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
+			session.clear();
+			session.close();
 			e.printStackTrace();
 			throw e;
 		}	
@@ -125,14 +127,16 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		 * @Format Preimpreso:	238-2014-000001	
 		 * @return Devuelve el correlativo **
 		 */
-		Session session=this.getSessionFactory().openSession();
-		Long resultados;
+		Session session=this.getSessionFactory().openSession();		
+		Integer resultado;
 		String numCont="000001";
 		try {
-			String query="select max(cast(substr(ocpreimpresoini,10) as long))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";			
-			resultados=(Long) session.createQuery(query).uniqueResult();
-			if(resultados!=null)
-			numCont=resultados.toString();			
+			String query="select max(cast(substring(ocpreimpresoini,10) as int))+1 from Ordencompra where proyectoid = '"+proyectoId+"'";			
+			resultado=(Integer)session.createQuery(query).uniqueResult();					
+			
+				if (resultado!= null)
+					numCont = resultado.toString();				
+			
 			return numCont;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
@@ -258,7 +262,7 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		}
 		
 	}
-	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -266,7 +270,6 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
 
 	
 }

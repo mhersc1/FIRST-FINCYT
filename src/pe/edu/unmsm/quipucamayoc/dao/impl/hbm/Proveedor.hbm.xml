@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 07/06/2014 03:46:19 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="pe.edu.unmsm.quipucamayoc.model.Proveedor" table="PROVEEDOR" schema="QPLOGISTICA">
+    <class name="pe.edu.unmsm.quipucamayoc.model.Proveedor" table="PROVEEDOR">
         <id name="proruc" type="java.lang.String">
             <column name="PRORUC" />
             <generator class="assigned" />
