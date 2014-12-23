@@ -32,8 +32,13 @@ public class HibernateUtil {
 	        	.addResource("pe/edu/unmsm/quipucamayoc/dao/impl/hbm/UniMedArt.hbm.xml")
 	        	.addResource("pe/edu/unmsm/quipucamayoc/dao/impl/hbm/UsuarioFinzyt.hbm.xml")
 	        	//Configuration Hibernate Properties
+<<<<<<< HEAD
 	        	.addProperties(props);        	
 
+=======
+	        	.addProperties(props);      
+	        	
+>>>>>>> refs/remotes/origin/master
 	        	sessionFactory =cfg.buildSessionFactory();
 	        } catch (Throwable ex) {
 	            // Log the exception. 

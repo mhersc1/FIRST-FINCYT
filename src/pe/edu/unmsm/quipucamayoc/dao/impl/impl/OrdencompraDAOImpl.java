@@ -96,8 +96,6 @@ public class OrdencompraDAOImpl implements OrdencompraDAO {
 		/**
 		 * @Format ocnro: 		2014000001
 		 */
-		System.out.println("Entre !!!");
-		//Session session=this.getSessionFactory().openSession();
 		Session session=this.getSessionFactory().openSession();
 		Integer resultado;
 		
