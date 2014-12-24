@@ -76,15 +76,15 @@ public class PecosaDAOImpl implements PecosaDAO {
 		 * @Format ocnro: 		2014000001
 		 */
 		Session session=this.getSessionFactory().openSession();
-		Long resultado;
+		Integer resultado;
 		String numCont="000001";
 		try {
 			String query="select max(id.pecnro)+1 from Pecosa where proyectoid = '"+proyectoId+"'";
-			resultado=(Long) session.createQuery(query).uniqueResult();
+			resultado=(Integer) session.createQuery(query).uniqueResult();
 			
-			if(resultado!=null ){
+			if(resultado!=null )
 				numCont=resultado.toString().substring(4);
-			}
+			
 			return numCont;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
@@ -97,24 +97,27 @@ public class PecosaDAOImpl implements PecosaDAO {
 	@Override
 	public String obtenerUltimoNroPreImpreso(int proyectoId) {
 		/**
-		 * @Format Preimpreso:	238-2014-000001	
+		 * @Format Preimpreso: 238-2014-000001
 		 * @return Devuelve el correlativo **
 		 */
-		Session session=this.getSessionFactory().openSession();
-		Long resultados;
-		String numCont="000001";
+		Session session = this.getSessionFactory().openSession();
+		Integer resultado;
+		String numCont = "000001";
 		try {
-			String query="select max(cast(substr(preimpresoinicial,10) as long))+1 from Pecosa where proyectoid = '"+proyectoId+"'";			
-			resultados=(Long) session.createQuery(query).uniqueResult();
-			if(resultados!=null)
-			numCont=resultados.toString();			
+			String query = "select max(cast(substring(preimpresoinicial,10) as int))+1 from Pecosa where proyectoid = '"
+					+ proyectoId + "'";
+			resultado = (Integer) session.createQuery(query).uniqueResult();
+
+			if (resultado != null)
+				numCont = String.valueOf(resultado);
+
 			return numCont;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw e;
 		}
-		
+
 	}
 	@Override
 	public List<Pecosa> getAll(int proyectoId) {

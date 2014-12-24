@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.unmsm.quipucamayoc.dao.inf.OrdenservicioDAO;
-import pe.edu.unmsm.quipucamayoc.model.Ordencompra;
 import pe.edu.unmsm.quipucamayoc.model.Ordenservicio;
 import pe.edu.unmsm.quipucamayoc.model.OrdenservicioId;
 
@@ -106,41 +105,44 @@ public class OrdenservicioDAOImpl implements OrdenservicioDAO {
 	}
 	
 	@Override
-	public String obtenerUltimoNro(int proyectoId){
+	public String obtenerUltimoNro(int proyectoId) {
 		/**
-		 * @Format osnro: 		2014000001
+		 * @Format osnro: 2014000001
 		 */
 		Session session = this.getSessionFactory().openSession();
-		Long resultado;
+		Integer resultado;
 		String numCont = "000001";
-		try{
-			String hql = "select max(cast(id.osnro as long))+1 from Ordenservicio where proyectoid = '"+proyectoId+"'";
-			resultado = (Long)session.createQuery(hql).uniqueResult();
-			
-			if(resultado!=null){
+		try {
+			String hql = "select max(cast(id.osnro as int))+1 from Ordenservicio where proyectoid = '"
+					+ proyectoId + "'";
+			resultado = (Integer) session.createQuery(hql).uniqueResult();
+
+			if (resultado != null)
 				numCont = resultado.toString().substring(4);
-			}
+
 			return numCont;
-		}catch(HibernateException e){
+		} catch (HibernateException e) {
 			e.printStackTrace();
 			throw e;
 		}
 	}
 	
 	@Override
-	public String obtenerUltimoNroPreImpreso(int proyectoId){
+	public String obtenerUltimoNroPreImpreso(int proyectoId) {
 		/**
-		 * @Format Preimpreso:	238-2014-000001	
+		 * @Format Preimpreso: 238-2014-000001
 		 * @return Devuelve el correlativo **
 		 */
 		Session session = this.getSessionFactory().openSession();
-		Long resultados;
-		String numCont="000001";
+		Integer resultados;
+		String numCont = "000001";
 		try {
-			String hql="select max(cast(substr(ospreimpresoini,10) as long))+1 from Ordenservicio where proyectoid = '"+proyectoId+"'";			
-			resultados=(Long) session.createQuery(hql).uniqueResult();
-			if(resultados!=null)
-			numCont=resultados.toString();			
+			String hql = "select max(cast(substring(ospreimpresoini,10) as int))+1 from Ordenservicio where proyectoid = '"
+					+ proyectoId + "'";
+			resultados = (Integer) session.createQuery(hql).uniqueResult();
+
+			if (resultados != null)
+				numCont = resultados.toString();
 			return numCont;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
